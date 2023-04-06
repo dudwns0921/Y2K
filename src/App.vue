@@ -1,12 +1,18 @@
+<template>
+  <HeaderComponent @open_login_modal="openLoginModal"></HeaderComponent>
+  <RouterView />
+  <LoginModal v-if="isLoginModalVisible" @close="close" />
+</template>
+
 <script lang="ts">
-import HeaderComponent from './components/HeaderComponent.vue'
+import HeaderComponent from './components/organism/HeaderComponent.vue'
 import { RouterView } from 'vue-router'
-import LoginModalView from './views/LoginModalView.vue'
+import LoginModal from './components/organism/LoginModal.vue'
 export default {
   components: {
     HeaderComponent,
     RouterView,
-    LoginModalView,
+    LoginModal,
   },
   data() {
     return { isLoginModalVisible: false }
@@ -21,11 +27,3 @@ export default {
   },
 }
 </script>
-
-<template>
-  <HeaderComponent @open_login_modal="openLoginModal"></HeaderComponent>
-  <RouterView />
-  <LoginModalView v-if="isLoginModalVisible" @close="close" />
-</template>
-
-<style lang="sccs" scoped></style>

@@ -1,46 +1,12 @@
-# vue-project
+# y2K
+## 컨벤션
+- 구조 자체가 복잡하지 않기 때문에 컴포넌트간 통신은 이벤트로 진행
+- env파일에는 공개되면 안되는 데이터만 저장
+    - 현재 관리자 이메일은 상수 파일에 저장중
+- Error를 표시할 때는 try catch문에서 throw Error을 통해 해결하자.
+- 규모가 크지 않기 때문에 아토믹 디자인중 template은 필요없을 것 같음.
+    - template을 통해 여러 개의 page 인스턴스를 만드는데, template을 재사용할 정도로 규모가 크지 않음
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+### 컨벤션 레퍼런스
+- https://fe-developers.kakaoent.com/2022/220505-how-page-part-use-atomic-design-system/
+- https://github.com/pablohpsilva/vuejs-component-style-guide/blob/master/README-KR.md
