@@ -1,22 +1,20 @@
 <template>
   <div
-    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-md p-6 z-50 flex flex-col gap-5"
+    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-[40px] z-50 flex flex-col"
   >
-    <h2 class="text-lg font-medium">{{ title }}</h2>
-    <pre>{{ content }}</pre>
+    <button class="absolute top-0 right-0 m-6" @click="closeModal">
+      &#x2715;
+    </button>
     <slot></slot>
   </div>
 </template>
 <script lang="ts">
+import { CLOSE_MODAL_EVENT } from '@/constants'
+
 export default {
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    content: {
-      type: String,
-      required: true,
+  methods: {
+    closeModal() {
+      this.$emit(CLOSE_MODAL_EVENT)
     },
   },
 }

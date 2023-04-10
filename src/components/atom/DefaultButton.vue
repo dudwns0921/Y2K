@@ -1,21 +1,22 @@
 <template>
-  <button
-    class="bg-gray-800 text-white px-4 py-2 rounded-md"
-    @click="handleClick"
-  >
-    {{ title }}
+  <button :class="[buttonClass, buttonHoverClass]" @click="handleClick">
+    <slot></slot>
   </button>
 </template>
 <script lang="ts">
 export default {
   props: {
-    title: {
-      type: String,
-      required: true,
-    },
     eventName: {
       type: String,
       required: true,
+    },
+  },
+  computed: {
+    buttonClass() {
+      return 'flex justify-center items-center h-[60px] px-[11px] min-w-[142px] max-w-max border border-black font-bold text-darkGray rounded'
+    },
+    buttonHoverClass() {
+      return 'hover:bg-darkGray hover:text-white hover:border-none'
     },
   },
   methods: {

@@ -1,24 +1,28 @@
 <template>
   <div>
     <OverlayComponentVue> </OverlayComponentVue>
-    <ModalComponent title="Administrator Login" :content="AdminMessage">
-      <TextInput
-        :value="password"
-        label="비밀번호"
-        @text-input="handleTextInput"
-      ></TextInput>
-      <ErrorDisplay :error="error"></ErrorDisplay>
-      <div class="flex gap-5">
-        <BasicButton
-          title="login"
-          event-name="login"
-          @login="login"
-        ></BasicButton>
-        <BasicButton
-          title="close"
-          event-name="close"
-          @close="close"
-        ></BasicButton>
+    <ModalComponent @close-modal="handleCloseModal">
+      <div
+        class="flex flex-col justify-center items-center w-[633px] h-[482px] gap-[45px]"
+      >
+        <p class="text-[40px] font-bold flex justify-center tracking-[19px]">
+          PASSWOR<span class="tracking-normal">D</span>
+        </p>
+        <div class="flex h-[49px] items-center gap-[12px]">
+          <TextInput
+            :value="password"
+            width="263px"
+            event-name="password-input"
+            @password-input="handleTextInput"
+          ></TextInput>
+          <button @click="handleLogin">
+            <PolygonIcon />
+          </button>
+        </div>
+      </div>
+
+      <div class="absolute bottom-[140px] left-1/2 transform -translate-x-1/2">
+        <ErrorDisplay :error="error"></ErrorDisplay>
       </div>
     </ModalComponent>
   </div>
@@ -27,11 +31,11 @@
 import ModalComponent from '@/components/molecule/ModalComponent.vue'
 import OverlayComponentVue from '@/components/atom/OverlayComponent.vue'
 import { requestSignInWithPopup } from '@/api'
-import { ADMIN_EMAIL, TOKEN_KEY } from '@/constants'
+import { CLOSE_MODAL_EVENT, TOKEN_KEY } from '@/constants'
 import { useAuthStore } from '@/stores/auth'
-import BasicButton from '@/components/atom/DefaultButton.vue'
-import TextInput from '../molecule/TextInput.vue'
-import ErrorDisplay from '../atom/ErrorDisplay.vue'
+import TextInput from '../../molecule/TextInput.vue'
+import ErrorDisplay from '../../atom/ErrorDisplay.vue'
+import PolygonIcon from '@/components/icon/PolygonIcon.vue'
 
 const { VITE_ADMIN_PASSWORD } = import.meta.env
 
@@ -39,9 +43,9 @@ export default {
   components: {
     OverlayComponentVue,
     ModalComponent,
-    BasicButton,
     TextInput,
     ErrorDisplay,
+    PolygonIcon,
   },
   data() {
     return {
@@ -49,13 +53,8 @@ export default {
       error: {} as Error,
     }
   },
-  computed: {
-    AdminMessage() {
-      return `관리자만 로그인할 수 있습니다. \n비밀번호는 ${ADMIN_EMAIL}로 문의 부탁드립니다.`
-    },
-  },
   methods: {
-    async login() {
+    async handleLogin() {
       try {
         if (this.password === VITE_ADMIN_PASSWORD) {
           if (this.error) {
@@ -79,8 +78,9 @@ export default {
         }
       }
     },
-    close() {
-      this.$emit('close')
+
+    handleCloseModal() {
+      this.$emit(CLOSE_MODAL_EVENT)
     },
     handleTextInput(value: string) {
       this.password = value
