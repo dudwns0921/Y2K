@@ -1,10 +1,11 @@
 import { GoogleAuthProvider, signOut, signInWithPopup } from 'firebase/auth'
-import { auth, provider } from './firebase/index'
+import { auth, provider } from './index'
 import { FirebaseError } from 'firebase/app'
+import { handleFirebaseError, handleOtherError } from './error'
 
 export async function requestSignInWithPopup() {
-  const result = await signInWithPopup(auth, provider)
   try {
+    const result = await signInWithPopup(auth, provider)
     if (result) {
       // This gives you a Google Access Token. You can use it to access the Google API.
       const credential = GoogleAuthProvider.credentialFromResult(result)
@@ -17,15 +18,12 @@ export async function requestSignInWithPopup() {
         user,
       }
     }
-  } catch (error) {
+  } catch (error: any) {
     if (error instanceof FirebaseError) {
-      // Handle Firebase authentication errors
-      const errorCode = error.code
-      const errorMessage = error.message
-      console.log(errorCode, errorMessage)
+      handleFirebaseError(error)
     } else {
       // Handle other types of errors
-      console.log(error)
+      handleOtherError(error)
     }
   }
 }
@@ -35,13 +33,10 @@ export async function requestSignOut() {
     await signOut(auth)
   } catch (error) {
     if (error instanceof FirebaseError) {
-      // Handle Firebase authentication errors
-      const errorCode = error.code
-      const errorMessage = error.message
-      console.log(errorCode, errorMessage)
+      handleFirebaseError(error)
     } else {
       // Handle other types of errors
-      console.log(error)
+      handleOtherError(error)
     }
   }
 }

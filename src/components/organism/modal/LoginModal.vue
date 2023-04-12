@@ -3,7 +3,7 @@
     <OverlayComponentVue> </OverlayComponentVue>
     <ModalComponent @close-modal="handleCloseModal">
       <div
-        class="flex flex-col justify-center items-center w-[633px] h-[482px] gap-[45px]"
+        class="flex flex-col justify-center items-center w-full h-full gap-[45px]"
       >
         <p class="text-[40px] font-bold flex justify-center tracking-[19px]">
           PASSWOR<span class="tracking-normal">D</span>
@@ -30,7 +30,7 @@
 <script lang="ts">
 import ModalComponent from '@/components/molecule/ModalComponent.vue'
 import OverlayComponentVue from '@/components/atom/OverlayComponent.vue'
-import { requestSignInWithPopup } from '@/api'
+import { requestSignInWithPopup } from '@/api/firebase/auth'
 import { CLOSE_MODAL_EVENT, TOKEN_KEY } from '@/constants'
 import { useAuthStore } from '@/stores/auth'
 import TextInput from '../../molecule/TextInput.vue'

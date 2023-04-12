@@ -1,17 +1,30 @@
 <template>
-  <header>
-    <nav class="bg-blue-500 flex gap-2">
-      <RouterLink to="/">홈</RouterLink>
-      <span v-if="!token" @click="openLoginModal">로그인</span>
-      <div v-else class="flex gap-2">
-        <span @click="openFormModal">입력하기</span
-        ><span @click="logout">로그아웃</span>
+  <header class="fixed z-30 bg-white w-full h-header">
+    <nav class="flex gap-2 p-[26px] justify-between">
+      <RouterLink to="/">홈 로고</RouterLink>
+      <div>
+        <DefaultButton
+          v-if="!token"
+          event-name="open-login-modal"
+          @open-login-modal="handleOpenLoginModal"
+          >로그인</DefaultButton
+        >
+        <div v-else class="flex gap-2">
+          <DefaultButton
+            event-name="open-form-modal"
+            @open-form-modal="handleOpenFormModal"
+            >콘텐츠 업로드</DefaultButton
+          >
+          <DefaultButton event-name="logout" @logout="handleLogout"
+            >로그아웃</DefaultButton
+          >
+        </div>
       </div>
     </nav>
   </header>
 </template>
 <script lang="ts">
-import { requestSignOut } from '@/api'
+import { requestSignOut } from '@/api/firebase/auth'
 import {
   OPEN_FORM_MODAL_EVENT,
   OPEN_LOGIN_MODAL_EVENT,
@@ -20,21 +33,23 @@ import {
 import { useAuthStore } from '@/stores/auth'
 import { mapState } from 'pinia'
 import { RouterLink } from 'vue-router'
+import DefaultButton from '../atom/DefaultButton.vue'
 export default {
   components: {
     RouterLink,
+    DefaultButton,
   },
   computed: {
     ...mapState(useAuthStore, ['token']),
   },
   methods: {
-    openFormModal() {
+    handleOpenFormModal() {
       this.$emit(OPEN_FORM_MODAL_EVENT)
     },
-    openLoginModal() {
+    handleOpenLoginModal() {
       this.$emit(OPEN_LOGIN_MODAL_EVENT)
     },
-    logout() {
+    handleLogout() {
       requestSignOut()
       localStorage.removeItem(TOKEN_KEY)
       window.location.replace('/')

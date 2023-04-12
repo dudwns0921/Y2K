@@ -10,12 +10,22 @@
   </div>
 </template>
 <script lang="ts">
+import { getImageURL, uploadImage } from '@/api/firebase/storage'
+
 export default {
   methods: {
-    handleDrop(event: DragEvent) {
+    async handleDrop(event: DragEvent) {
       event.preventDefault()
       const file = event.dataTransfer?.files[0]
-      this.$emit('file-drop', file)
+      if (file) {
+        const imagesRef = await uploadImage(file)
+        if (imagesRef !== undefined) {
+          const imageURL = await getImageURL(imagesRef)
+          if (imageURL !== undefined) {
+            this.$emit('file-uploaded', imageURL)
+          }
+        }
+      }
     },
   },
 }

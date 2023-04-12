@@ -1,6 +1,6 @@
 <template>
   <div
-    class="inline-block rounded-sm border border-black px-0.5 cursor-pointer"
+    class="inline-block rounded-sm cursor-pointer h-[60px] flex items-center justify-center p-[20px] bg-lightGray text-black"
     @click="addFilter(content)"
   >
     <p>{{ content }}</p>

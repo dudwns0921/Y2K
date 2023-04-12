@@ -5,7 +5,7 @@
       :id="label"
       :value="value"
       class="border border-black focus:outline-none p-[9px] resize-none"
-      :class="inputClass"
+      :class="textAreaClass"
       @input="handleInput"
     />
   </div>
@@ -31,7 +31,7 @@ export default {
     },
   },
   computed: {
-    inputClass() {
+    textAreaClass() {
       let width = ''
       let height = ''
       if (this.width === 'full') {

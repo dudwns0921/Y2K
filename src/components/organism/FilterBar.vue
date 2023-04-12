@@ -1,15 +1,30 @@
 <template>
   <div class="flex gap-2">
-    <FilterComponent content="전체보기"></FilterComponent>
-    <FilterComponent content="드라마"></FilterComponent>
-    <FilterComponent content="홍보영상"></FilterComponent>
-    <FilterComponent content="긴 문장의 다큐멘터리"></FilterComponent>
+    <template v-if="!isFilterLoading">
+      <FilterComponent
+        v-for="filter in filters"
+        :key="filter"
+        :content="filter"
+      ></FilterComponent>
+    </template>
+    <template v-else>
+      <FilterSkeleton
+        v-for="dummy in ['1', '2', '3']"
+        :key="dummy"
+      ></FilterSkeleton>
+    </template>
   </div>
 </template>
 <script lang="ts">
+import { mapState } from 'pinia'
 import FilterComponent from '../molecule/FilterComponent.vue'
+import { useFilterStore } from '@/stores/filter'
+import FilterSkeleton from '../atom/skleton/FilterSkeleton.vue'
 
 export default {
-  components: { FilterComponent },
+  components: { FilterComponent, FilterSkeleton },
+  computed: {
+    ...mapState(useFilterStore, ['filters', 'isFilterLoading']),
+  },
 }
 </script>
