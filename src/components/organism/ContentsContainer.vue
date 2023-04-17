@@ -7,6 +7,7 @@
         :title="content.title"
         :thumbnail-url="content.thumbnailURL"
         @open-content-detail="openContentDetail(content)"
+        @delete-content="handleDeleteContent(content.id)"
       ></ContentCard>
     </template>
     <template v-else>
@@ -22,6 +23,7 @@ import { mapActions, mapState } from 'pinia'
 import ContentCard from '../molecule/ContentCard.vue'
 import { useContentStore } from '@/stores/content'
 import ContentCardSkeleton from '../atom/skleton/ContentCardSkeleton.vue'
+import { deleteContent } from '@/api/firebase/database'
 
 export default {
   components: { ContentCard, ContentCardSkeleton },
@@ -30,6 +32,10 @@ export default {
   },
   methods: {
     ...mapActions(useContentStore, ['openContentDetail']),
+    async handleDeleteContent(contentId: string) {
+      await deleteContent(contentId)
+      window.location.reload()
+    },
   },
 }
 </script>

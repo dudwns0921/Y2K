@@ -11,7 +11,7 @@
     ></TextInput>
     <TextInput
       :value="videoId"
-      label="비디오 Id"
+      label="유튜브 동영상 ID"
       event-name="video-id-input"
       height="49px"
       @video-id-input="handleVideoIdInput"
@@ -61,6 +61,7 @@ import DragDrop from '../molecule/DragDrop.vue'
 import FilterInput from '../molecule/FilterInput.vue'
 import { v4 as uuidv4 } from 'uuid'
 import { saveContent, setFilters } from '@/api/firebase/database'
+import type { yearAndMonth } from '@/types/content'
 
 export default {
   components: { TextInput, TextArea, DefaultButton, DragDrop, FilterInput },
@@ -70,7 +71,7 @@ export default {
       videoId: '',
       thumbnailURL: '',
       filters: [] as string[],
-      date: null as Date | null,
+      date: [] as yearAndMonth[],
       description: '',
     }
   },

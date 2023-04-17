@@ -18,7 +18,7 @@
         class="absolute top-[40px] right-[10px] bg-lightGray w-[63px] flex flex-col items-center border border-black p-[10px] z-20"
       >
         <p class="cursor-pointer">수정</p>
-        <p class="cursor-pointer">삭제</p>
+        <p class="cursor-pointer" @click="emitDeleteContentEvent">삭제</p>
       </div>
     </div>
     <div
@@ -29,7 +29,7 @@
   </div>
 </template>
 <script lang="ts">
-import { OPEN_CONTENT_DETAIL_EVENT } from '@/constants'
+import { OPEN_CONTENT_DETAIL_EVENT, DELETE_CONTENT_EVENT } from '@/constants'
 
 export default {
   props: {
@@ -52,6 +52,9 @@ export default {
   methods: {
     emitOpenContentDetailEvent() {
       this.$emit(OPEN_CONTENT_DETAIL_EVENT)
+    },
+    emitDeleteContentEvent() {
+      this.$emit(DELETE_CONTENT_EVENT)
     },
     openDetailedMenu() {
       this.isDetailedMenuClicked = !this.isDetailedMenuClicked

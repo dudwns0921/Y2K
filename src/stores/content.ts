@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
-import type { ContentData } from '@/types/content'
 import { getContents } from '@/api/firebase/database'
+import type { ContentDataResponse } from '@/types/content'
 
 interface ContentState {
-  contents: ContentData[]
+  contents: ContentDataResponse[]
   isContentLoading: boolean
   isContentDetailOpen: boolean
-  currentDetailContent: ContentData | null
+  currentDetailContent: ContentDataResponse | null
 }
 
 export const useContentStore = defineStore('content', {
@@ -25,7 +25,7 @@ export const useContentStore = defineStore('content', {
         this.isContentLoading = false
       }
     },
-    openContentDetail(content: ContentData) {
+    openContentDetail(content: ContentDataResponse) {
       window.scrollTo(0, 0)
       setTimeout(() => {
         this.isContentDetailOpen = true
