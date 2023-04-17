@@ -10,11 +10,11 @@
       @title-input="handleTitleInput"
     ></TextInput>
     <TextInput
-      :value="url"
-      label="URL"
-      event-name="url-input"
+      :value="videoId"
+      label="비디오 Id"
+      event-name="video-id-input"
       height="49px"
-      @url-input="handleURLInput"
+      @video-id-input="handleVideoIdInput"
     ></TextInput>
     <div class="flex flex-col gap-[12px]">
       <label class="font-bold">썸네일</label>
@@ -67,7 +67,7 @@ export default {
   data() {
     return {
       title: '',
-      url: '',
+      videoId: '',
       thumbnailURL: '',
       filters: [] as string[],
       date: null as Date | null,
@@ -84,8 +84,8 @@ export default {
     handleDescriptionInput(value: string) {
       this.description = value
     },
-    handleURLInput(value: string) {
-      this.url = value
+    handleVideoIdInput(value: string) {
+      this.videoId = value
     },
     handleAddFilter(value: string) {
       this.filters.push(value)
@@ -97,7 +97,7 @@ export default {
       const contentId = uuidv4()
       const contentData = {
         title: this.title,
-        url: this.url,
+        videoId: this.videoId,
         thumbnailURL: this.thumbnailURL,
         filters: this.filters,
         date: this.date,

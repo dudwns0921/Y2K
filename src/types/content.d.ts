@@ -1,7 +1,7 @@
 export type ContentData = {
   id?: string
   title: string
-  url: string
+  videoId: string
   thumbnailURL: string
   filters: string[]
   date: Date | null
