@@ -2,14 +2,22 @@ import { app } from './index'
 import { FirebaseError } from 'firebase/app'
 import { child, get, getDatabase, ref, remove, set } from 'firebase/database'
 import { handleFirebaseError, handleOtherError } from './error'
-import type { ContentDataRequest, ContentDataResponse } from '@/types/content'
+import type { ContentData } from '@/types/content'
 
-export async function saveContent(
-  contentId: string,
-  contentData: ContentDataRequest
-) {
+export async function saveContent(contentData: ContentData) {
   try {
-    await set(ref(getDatabase(app), 'contents/' + contentId), contentData)
+    const dbRef = ref(getDatabase(app))
+    const snapshot = await get(child(dbRef, `contents/${contentData.videoId}`))
+    if (!snapshot.exists()) {
+      await set(
+        ref(getDatabase(app), 'contents/' + contentData.videoId),
+        contentData
+      )
+    } else {
+      throw new Error('중복된 videoId 입니다.')
+    }
+    // 성공시 메인 페이지로 이동
+    window.location.replace('/')
   } catch (error) {
     if (error instanceof FirebaseError) {
       handleFirebaseError(error)
@@ -22,7 +30,7 @@ export async function saveContent(
 
 export async function getContents() {
   try {
-    const contents: ContentDataResponse[] = []
+    const contents: ContentData[] = []
     const dbRef = ref(getDatabase(app))
     const snapshot = await get(child(dbRef, 'contents/'))
     if (snapshot.exists()) {
@@ -50,6 +58,8 @@ export async function getContents() {
 export async function deleteContent(contentId: string) {
   try {
     await remove(ref(getDatabase(app), 'contents/' + contentId))
+    // 성공시 새로고침
+    window.location.reload()
   } catch (error) {
     if (error instanceof FirebaseError) {
       handleFirebaseError(error)

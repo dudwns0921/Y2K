@@ -59,9 +59,7 @@ import TextArea from '../molecule/TextArea.vue'
 import TextInput from '../molecule/TextInput.vue'
 import DragDrop from '../molecule/DragDrop.vue'
 import FilterInput from '../molecule/FilterInput.vue'
-import { v4 as uuidv4 } from 'uuid'
 import { saveContent, setFilters } from '@/api/firebase/database'
-import type { yearAndMonth } from '@/types/content'
 
 export default {
   components: { TextInput, TextArea, DefaultButton, DragDrop, FilterInput },
@@ -71,7 +69,7 @@ export default {
       videoId: '',
       thumbnailURL: '',
       filters: [] as string[],
-      date: [] as yearAndMonth[],
+      date: null,
       description: '',
     }
   },
@@ -95,7 +93,6 @@ export default {
       this.thumbnailURL = value
     },
     async handleSubmitForm() {
-      const contentId = uuidv4()
       const contentData = {
         title: this.title,
         videoId: this.videoId,
@@ -104,9 +101,8 @@ export default {
         date: this.date,
         description: this.description,
       }
-      await saveContent(contentId, contentData)
+      await saveContent(contentData)
       await setFilters(this.filters)
-      window.location.replace('/')
     },
   },
 }

@@ -3,11 +3,11 @@
     <template v-if="!isContentLoading">
       <ContentCard
         v-for="content in contents"
-        :key="content.id"
+        :key="content.videoId"
         :title="content.title"
         :thumbnail-url="content.thumbnailURL"
         @open-content-detail="openContentDetail(content)"
-        @delete-content="handleDeleteContent(content.id)"
+        @delete-content="handleDeleteContent(content.videoId)"
       ></ContentCard>
     </template>
     <template v-else>
@@ -34,7 +34,6 @@ export default {
     ...mapActions(useContentStore, ['openContentDetail']),
     async handleDeleteContent(contentId: string) {
       await deleteContent(contentId)
-      window.location.reload()
     },
   },
 }
