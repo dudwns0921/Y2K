@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-[40px] z-50 flex flex-col items-center h-4/5 w-3/5 min-w-max min-h-max"
+    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-[40px] z-20 flex flex-col items-center h-4/5 w-3/5 min-w-max min-h-max"
   >
     <button class="absolute top-0 right-0 m-6" @click="closeModal">
       &#x2715;

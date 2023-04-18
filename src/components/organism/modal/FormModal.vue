@@ -1,6 +1,6 @@
 <template>
   <div>
-    <OverlayComponentVue> </OverlayComponentVue>
+    <OverlayComponentVue @close-modal="handleCloseModal"> </OverlayComponentVue>
     <ModalComponent @close-modal="handleCloseModal">
       <FormComponent @close-modal="handleCloseModal"></FormComponent>
     </ModalComponent>
@@ -8,7 +8,7 @@
 </template>
 <script lang="ts">
 import ModalComponent from '@/components/molecule/ModalComponent.vue'
-import OverlayComponentVue from '@/components/atom/OverlayComponent.vue'
+import OverlayComponentVue from '@/components/molecule/OverlayComponent.vue'
 import { CLOSE_MODAL_EVENT } from '@/constants'
 import FormComponent from '../FormComponent.vue'
 

@@ -21,16 +21,11 @@
       <DragDrop @file-uploaded="handleFileUploaded"></DragDrop>
     </div>
     <FilterInput
-      event-name="add-filter"
       label="필터"
       height="49px"
       @add-filter="handleAddFilter"
+      @delete-filter="handleDeleteFilter"
     ></FilterInput>
-    <div>
-      <div v-for="filter in filters" :key="filter">
-        {{ filter }}
-      </div>
-    </div>
     <div class="flex flex-col gap-[12px]">
       <label class="font-bold">시기</label>
       <VueDatePicker v-model="date" range month-picker></VueDatePicker>
@@ -58,7 +53,7 @@ import DefaultButton from '../atom/DefaultButton.vue'
 import TextArea from '../molecule/TextArea.vue'
 import TextInput from '../molecule/TextInput.vue'
 import DragDrop from '../molecule/DragDrop.vue'
-import FilterInput from '../molecule/FilterInput.vue'
+import FilterInput from './FilterInput.vue'
 import { saveContent } from '@/api/firebase/database'
 
 export default {
@@ -88,6 +83,10 @@ export default {
     },
     handleAddFilter(value: string) {
       this.filters.push(value)
+    },
+    handleDeleteFilter(filter: string) {
+      const indexToDelete = this.filters.indexOf(filter)
+      this.filters.splice(indexToDelete, 1)
     },
     handleFileUploaded(value: string) {
       this.thumbnailURL = value

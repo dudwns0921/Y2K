@@ -4,7 +4,7 @@
 <script lang="ts">
 export default {}
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 /* FIXME : tailwind로 고쳐보기 */
 .triangle {
   width: 0;

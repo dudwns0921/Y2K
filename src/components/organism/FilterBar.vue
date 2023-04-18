@@ -1,11 +1,11 @@
 <template>
   <div class="flex gap-2">
     <template v-if="!isContentStoreProcessing">
-      <FilterComponent
+      <MainFilter
         v-for="filter in filters"
         :key="filter"
         :content="filter"
-      ></FilterComponent>
+      ></MainFilter>
     </template>
     <template v-else>
       <FilterSkeleton
@@ -17,12 +17,12 @@
 </template>
 <script lang="ts">
 import { mapState } from 'pinia'
-import FilterComponent from '../molecule/FilterComponent.vue'
 import FilterSkeleton from '../atom/skleton/FilterSkeleton.vue'
 import { useContentStore } from '@/stores/content'
+import MainFilter from '../molecule/filter/MainFilter.vue'
 
 export default {
-  components: { FilterComponent, FilterSkeleton },
+  components: { FilterSkeleton, MainFilter },
   computed: {
     ...mapState(useContentStore, ['filters', 'isContentStoreProcessing']),
   },

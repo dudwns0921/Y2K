@@ -1,5 +1,5 @@
 <template>
-  <header class="fixed z-30 bg-white w-full h-header">
+  <header class="fixed bg-white w-full h-header">
     <nav class="flex gap-2 p-[26px] justify-between">
       <RouterLink to="/">홈 로고</RouterLink>
       <div>
@@ -25,11 +25,7 @@
 </template>
 <script lang="ts">
 import { requestSignOut } from '@/api/firebase/auth'
-import {
-  OPEN_FORM_MODAL_EVENT,
-  OPEN_LOGIN_MODAL_EVENT,
-  TOKEN_KEY,
-} from '@/constants'
+import { OPEN_FORM_MODAL_EVENT, OPEN_LOGIN_MODAL_EVENT } from '@/constants'
 import { useAuthStore } from '@/stores/auth'
 import { mapState } from 'pinia'
 import { RouterLink } from 'vue-router'
@@ -51,8 +47,6 @@ export default {
     },
     handleLogout() {
       requestSignOut()
-      localStorage.removeItem(TOKEN_KEY)
-      window.location.replace('/')
     },
   },
 }

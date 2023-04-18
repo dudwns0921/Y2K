@@ -1,6 +1,6 @@
 <template>
   <div>
-    <OverlayComponentVue> </OverlayComponentVue>
+    <OverlayComponent @close-modal="handleCloseModal"> </OverlayComponent>
     <ModalComponent @close-modal="handleCloseModal">
       <div
         class="flex flex-col justify-center items-center w-full h-full gap-[45px]"
@@ -29,19 +29,19 @@
 </template>
 <script lang="ts">
 import ModalComponent from '@/components/molecule/ModalComponent.vue'
-import OverlayComponentVue from '@/components/atom/OverlayComponent.vue'
+import OverlayComponent from '@/components/molecule/OverlayComponent.vue'
 import { requestSignInWithPopup } from '@/api/firebase/auth'
 import { CLOSE_MODAL_EVENT, TOKEN_KEY } from '@/constants'
 import { useAuthStore } from '@/stores/auth'
 import TextInput from '../../molecule/TextInput.vue'
-import ErrorDisplay from '../../atom/ErrorDisplay.vue'
+import ErrorDisplay from '../../molecule/ErrorDisplay.vue'
 import PolygonIcon from '@/components/icon/PolygonIcon.vue'
 
 const { VITE_ADMIN_PASSWORD } = import.meta.env
 
 export default {
   components: {
-    OverlayComponentVue,
+    OverlayComponent,
     ModalComponent,
     TextInput,
     ErrorDisplay,

@@ -2,6 +2,7 @@ import { GoogleAuthProvider, signOut, signInWithPopup } from 'firebase/auth'
 import { auth, provider } from './index'
 import { FirebaseError } from 'firebase/app'
 import { handleFirebaseError, handleOtherError } from './error'
+import { TOKEN_KEY } from '@/constants'
 
 export async function requestSignInWithPopup() {
   try {
@@ -31,6 +32,8 @@ export async function requestSignInWithPopup() {
 export async function requestSignOut() {
   try {
     await signOut(auth)
+    localStorage.removeItem(TOKEN_KEY)
+    window.location.replace('/')
   } catch (error) {
     if (error instanceof FirebaseError) {
       handleFirebaseError(error)

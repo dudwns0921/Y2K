@@ -1,15 +1,13 @@
 <template>
   <div
-    class="inline-block rounded-sm cursor-pointer h-[60px] flex items-center justify-center p-[20px] bg-lightGray text-black"
+    class="flex justify-center items-center h-full w-max rounded-sm bg-lightGray p-[5px] gap-[10px] cursor-pointer"
     @click="addFilter"
   >
     <p>{{ content }}</p>
   </div>
 </template>
-
 <script lang="ts">
 export default {
-  name: 'TextBox',
   props: {
     content: {
       type: String,
@@ -18,7 +16,7 @@ export default {
   },
   methods: {
     addFilter() {
-      console.log('add Filter 처리 필요')
+      this.$emit('add-filter')
     },
   },
 }
