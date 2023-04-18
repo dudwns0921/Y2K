@@ -3,6 +3,9 @@ import { FirebaseError } from 'firebase/app'
 import { child, get, getDatabase, ref, remove, set } from 'firebase/database'
 import { handleFirebaseError, handleOtherError } from './error'
 import type { ContentData } from '@/types/content'
+import Logger from '@/util/logger/Logger'
+
+const logger = new Logger('database')
 
 export async function saveContent(contentData: ContentData) {
   try {
@@ -29,6 +32,8 @@ export async function saveContent(contentData: ContentData) {
 }
 
 export async function getContentsAndFilters() {
+  logger.setPrefix('getContentsAndFilters')
+
   try {
     const contents: ContentData[] = []
     let filters: string[] = []
@@ -36,7 +41,7 @@ export async function getContentsAndFilters() {
     const dbRef = ref(getDatabase(app))
     const snapshot = await get(child(dbRef, 'contents/'))
     if (snapshot.exists()) {
-      console.log('Data available')
+      logger.log('Data available')
       for (const key in snapshot.val()) {
         const data = snapshot.val()[key] as ContentData
         contents.push(data)
@@ -44,7 +49,7 @@ export async function getContentsAndFilters() {
         filters = [...filters, ...data.filters]
       }
     } else {
-      console.log('No data available')
+      logger.log('No data available')
     }
     return {
       contents,
