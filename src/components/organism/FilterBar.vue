@@ -1,6 +1,6 @@
 <template>
   <div class="flex gap-2">
-    <template v-if="!isFilterLoading">
+    <template v-if="!isContentStoreProcessing">
       <FilterComponent
         v-for="filter in filters"
         :key="filter"
@@ -18,13 +18,13 @@
 <script lang="ts">
 import { mapState } from 'pinia'
 import FilterComponent from '../molecule/FilterComponent.vue'
-import { useFilterStore } from '@/stores/filter'
 import FilterSkeleton from '../atom/skleton/FilterSkeleton.vue'
+import { useContentStore } from '@/stores/content'
 
 export default {
   components: { FilterComponent, FilterSkeleton },
   computed: {
-    ...mapState(useFilterStore, ['filters', 'isFilterLoading']),
+    ...mapState(useContentStore, ['filters', 'isContentStoreProcessing']),
   },
 }
 </script>

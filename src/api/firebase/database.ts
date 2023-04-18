@@ -28,23 +28,28 @@ export async function saveContent(contentData: ContentData) {
   }
 }
 
-export async function getContents() {
+export async function getContentsAndFilters() {
   try {
     const contents: ContentData[] = []
+    let filters: string[] = []
+
     const dbRef = ref(getDatabase(app))
     const snapshot = await get(child(dbRef, 'contents/'))
     if (snapshot.exists()) {
       console.log('Data available')
       for (const key in snapshot.val()) {
-        const id = key
-        const data = snapshot.val()[key]
-        data.id = id
+        const data = snapshot.val()[key] as ContentData
         contents.push(data)
+
+        filters = [...filters, ...data.filters]
       }
     } else {
       console.log('No data available')
     }
-    return contents
+    return {
+      contents,
+      filters,
+    }
   } catch (error) {
     if (error instanceof FirebaseError) {
       handleFirebaseError(error)
@@ -60,48 +65,6 @@ export async function deleteContent(contentId: string) {
     await remove(ref(getDatabase(app), 'contents/' + contentId))
     // 성공시 새로고침
     window.location.reload()
-  } catch (error) {
-    if (error instanceof FirebaseError) {
-      handleFirebaseError(error)
-    } else {
-      // Handle other types of errors
-      handleOtherError(error)
-    }
-  }
-}
-
-export async function setFilters(filterData: string[]) {
-  try {
-    const filters = await getFilters()
-    if (filters !== undefined) {
-      await set(ref(getDatabase(app), 'filters/'), [...filters, ...filterData])
-    } else {
-      await set(ref(getDatabase(app), 'filters/'), [...filterData])
-    }
-  } catch (error) {
-    if (error instanceof FirebaseError) {
-      handleFirebaseError(error)
-    } else {
-      // Handle other types of errors
-      handleOtherError(error)
-    }
-  }
-}
-
-export async function getFilters() {
-  try {
-    const filters: string[] = []
-    const dbRef = ref(getDatabase(app))
-    const snapshot = await get(child(dbRef, 'filters/'))
-    if (snapshot.exists()) {
-      console.log('Data available')
-      for (const filter of snapshot.val()) {
-        filters.push(filter)
-      }
-    } else {
-      console.log('No data available')
-    }
-    return filters
   } catch (error) {
     if (error instanceof FirebaseError) {
       handleFirebaseError(error)

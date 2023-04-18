@@ -10,7 +10,6 @@ import ContentDetail from '@/components/organism/ContentDetail.vue'
 import ContentsContainer from '@/components/organism/ContentsContainer.vue'
 import FilterBar from '@/components/organism/FilterBar.vue'
 import { useContentStore } from '@/stores/content'
-import { useFilterStore } from '@/stores/filter'
 import { mapActions } from 'pinia'
 export default {
   components: {
@@ -24,13 +23,11 @@ export default {
     }
   },
   created() {
-    this.setContents()
-    this.setFilters()
+    this.setContentsAndFilters()
   },
 
   methods: {
-    ...mapActions(useContentStore, ['setContents']),
-    ...mapActions(useFilterStore, ['setFilters']),
+    ...mapActions(useContentStore, ['setContentsAndFilters']),
   },
 }
 </script>

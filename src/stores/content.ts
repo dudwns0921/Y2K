@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
-import { getContents } from '@/api/firebase/database'
+import { getContentsAndFilters } from '@/api/firebase/database'
 import type { ContentData } from '@/types/content'
 
 interface ContentState {
   contents: ContentData[]
-  isContentLoading: boolean
+  filters: string[]
+  isContentStoreProcessing: boolean
   isContentDetailOpen: boolean
   currentDetailContent: ContentData | null
 }
@@ -12,17 +13,20 @@ interface ContentState {
 export const useContentStore = defineStore('content', {
   state: (): ContentState => ({
     contents: [],
-    isContentLoading: false,
+    filters: [],
+    isContentStoreProcessing: false,
     isContentDetailOpen: false,
     currentDetailContent: null,
   }),
   actions: {
-    async setContents() {
-      this.isContentLoading = true
-      const allContent = await getContents()
-      if (allContent !== undefined) {
-        this.contents = allContent
-        this.isContentLoading = false
+    async setContentsAndFilters() {
+      this.isContentStoreProcessing = true
+      const contentsAndFilters = await getContentsAndFilters()
+      if (contentsAndFilters !== undefined) {
+        this.contents = contentsAndFilters.contents
+        this.filters = Array.from(new Set(contentsAndFilters.filters))
+        // 중복 제거 후 할당
+        this.isContentStoreProcessing = false
       }
     },
     openContentDetail(content: ContentData) {

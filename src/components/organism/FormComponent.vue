@@ -59,7 +59,7 @@ import TextArea from '../molecule/TextArea.vue'
 import TextInput from '../molecule/TextInput.vue'
 import DragDrop from '../molecule/DragDrop.vue'
 import FilterInput from '../molecule/FilterInput.vue'
-import { saveContent, setFilters } from '@/api/firebase/database'
+import { saveContent } from '@/api/firebase/database'
 
 export default {
   components: { TextInput, TextArea, DefaultButton, DragDrop, FilterInput },
@@ -102,7 +102,6 @@ export default {
         description: this.description,
       }
       await saveContent(contentData)
-      await setFilters(this.filters)
     },
   },
 }

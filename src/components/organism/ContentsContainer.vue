@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col gap-[20px]">
-    <template v-if="!isContentLoading">
+    <template v-if="!isContentStoreProcessing">
       <ContentCard
         v-for="content in contents"
         :key="content.videoId"
@@ -28,7 +28,7 @@ import { deleteContent } from '@/api/firebase/database'
 export default {
   components: { ContentCard, ContentCardSkeleton },
   computed: {
-    ...mapState(useContentStore, ['contents', 'isContentLoading']),
+    ...mapState(useContentStore, ['contents', 'isContentStoreProcessing']),
   },
   methods: {
     ...mapActions(useContentStore, ['openContentDetail']),
