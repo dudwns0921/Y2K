@@ -1,4 +1,5 @@
 export type ContentData = {
+  id: string
   title: string
   videoId: string
   thumbnailURL: string

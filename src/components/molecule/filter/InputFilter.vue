@@ -7,6 +7,8 @@
   </div>
 </template>
 <script lang="ts">
+import { DELETE_FILTER_EVENT } from '@/constants'
+
 export default {
   props: {
     content: {
@@ -16,7 +18,7 @@ export default {
   },
   methods: {
     emitDeleteFilterEvent() {
-      this.$emit('delete-filter')
+      this.$emit(DELETE_FILTER_EVENT)
     },
   },
 }

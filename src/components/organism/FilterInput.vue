@@ -46,6 +46,7 @@ import { mapState } from 'pinia'
 import InputFilter from '../molecule/filter/InputFilter.vue'
 import WindowFilter from '../molecule/filter/WindowFilter.vue'
 import { useContentStore } from '@/stores/content'
+import { ADD_FILTER_EVENT, DELETE_FILTER_EVENT } from '@/constants'
 
 export default {
   components: { InputFilter, WindowFilter },
@@ -58,6 +59,10 @@ export default {
     height: {
       type: String,
       default: 'full',
+    },
+    filtersForUpdate: {
+      type: Array,
+      required: true,
     },
   },
   data() {
@@ -86,10 +91,9 @@ export default {
     },
   },
   mounted() {
-    document.addEventListener('click', this.handleFilterWindowOutsideClick)
-  },
-  unmounted() {
-    document.removeEventListener('click', this.handleFilterWindowOutsideClick)
+    if (this.filtersForUpdate.length !== 0) {
+      this.innerFilters = this.filtersForUpdate as string[]
+    }
   },
   methods: {
     handleFilterWindowOutsideClick(event: MouseEvent) {
@@ -115,7 +119,7 @@ export default {
       const isFilterEmpty = filter.length === 0
 
       if (!isFilterDuplicated && !isFilterEmpty) {
-        this.$emit('add-filter', filter)
+        this.$emit(ADD_FILTER_EVENT, filter)
         this.innerFilters.push(filter)
       }
 
@@ -125,14 +129,16 @@ export default {
     },
     openFilterWindow() {
       this.isFilterWindowOpen = true
+      document.addEventListener('click', this.handleFilterWindowOutsideClick)
     },
     closeFilterWindow() {
       this.isFilterWindowOpen = false
+      document.removeEventListener('click', this.handleFilterWindowOutsideClick)
     },
     handleDeleteFilter(filter: string) {
       const indexToDelete = this.innerFilters.indexOf(filter)
       this.innerFilters.splice(indexToDelete, 1)
-      this.$emit('delete-filter', filter)
+      this.$emit(DELETE_FILTER_EVENT, filter)
 
       this.focusFilterInput()
     },

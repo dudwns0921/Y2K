@@ -23,6 +23,9 @@
     <FilterInput
       label="필터"
       height="49px"
+      :filters-for-update="
+        contentDataForUpdate?.filters ? [...contentDataForUpdate.filters] : []
+      "
       @add-filter="handleAddFilter"
       @delete-filter="handleDeleteFilter"
     ></FilterInput>
@@ -38,12 +41,8 @@
       @description-input="handleDescriptionInput"
     ></TextArea>
     <div class="flex gap-[16px] justify-end">
-      <DefaultButton event-name="close-modal" @close-modal="handleCloseModal"
-        >취소</DefaultButton
-      >
-      <DefaultButton event-name="submit-form" @submit-form="handleSubmitForm"
-        >저장</DefaultButton
-      >
+      <DefaultButton @click="handleCloseModal">취소</DefaultButton>
+      <DefaultButton @click="handleSubmitForm">저장</DefaultButton>
     </div>
   </div>
 </template>
@@ -55,9 +54,16 @@ import TextInput from '../molecule/TextInput.vue'
 import DragDrop from '../molecule/DragDrop.vue'
 import FilterInput from './FilterInput.vue'
 import { saveContent } from '@/api/firebase/database'
+import { uuidv4 } from '@firebase/util'
 
 export default {
   components: { TextInput, TextArea, DefaultButton, DragDrop, FilterInput },
+  props: {
+    contentDataForUpdate: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       title: '',
@@ -66,6 +72,24 @@ export default {
       filters: [] as string[],
       date: null,
       description: '',
+      isUpdate: false,
+    }
+  },
+  mounted() {
+    // 수정시 기존 작성된 데이터로 초기화
+    if (Object.keys(this.contentDataForUpdate).length !== 0) {
+      this.title = this.contentDataForUpdate.title
+      this.videoId = this.contentDataForUpdate.videoId
+      this.thumbnailURL = this.contentDataForUpdate.thumbnailURL
+      this.filters = [...this.contentDataForUpdate.filters]
+      this.date = this.contentDataForUpdate.date
+      this.description = this.contentDataForUpdate.description
+
+      this.isUpdate = true
+    } else {
+      if (this.isUpdate) {
+        this.isUpdate = false
+      }
     }
   },
   methods: {
@@ -92,7 +116,9 @@ export default {
       this.thumbnailURL = value
     },
     async handleSubmitForm() {
+      const id = uuidv4()
       const contentData = {
+        id: this.isUpdate ? this.contentDataForUpdate?.id : id,
         title: this.title,
         videoId: this.videoId,
         thumbnailURL: this.thumbnailURL,
@@ -100,7 +126,7 @@ export default {
         date: this.date,
         description: this.description,
       }
-      await saveContent(contentData)
+      await saveContent(contentData, this.isUpdate)
     },
   },
 }

@@ -7,6 +7,8 @@
   </div>
 </template>
 <script lang="ts">
+import { ADD_FILTER_EVENT } from '@/constants'
+
 export default {
   props: {
     content: {
@@ -16,7 +18,7 @@ export default {
   },
   methods: {
     addFilter() {
-      this.$emit('add-filter')
+      this.$emit(ADD_FILTER_EVENT)
     },
   },
 }

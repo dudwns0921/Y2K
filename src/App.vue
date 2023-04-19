@@ -4,10 +4,14 @@
     @open-form-modal="openFormModal"
   ></HeaderComponent>
   <main class="pt-header">
-    <RouterView />
+    <RouterView @update-content="handleUpdateContent" />
   </main>
   <LoginModal v-if="isLoginModalVisible" @close-modal="handleCloseLoginModal" />
-  <FormModal v-if="isFormModalVisible" @close-modal="handleCloseFormModal" />
+  <FormModal
+    v-if="isFormModalVisible"
+    :content-data-for-update="contentDataForUpdate"
+    @close-modal="handleCloseFormModal"
+  />
 </template>
 
 <script lang="ts">
@@ -17,6 +21,7 @@ import LoginModal from './components/organism/modal/LoginModal.vue'
 import FormModal from './components/organism/modal/FormModal.vue'
 import { mapState } from 'pinia'
 import { useContentStore } from './stores/content'
+import type { ContentData } from './types/content'
 
 export default {
   components: {
@@ -26,7 +31,11 @@ export default {
     FormModal,
   },
   data() {
-    return { isLoginModalVisible: false, isFormModalVisible: false }
+    return {
+      isLoginModalVisible: false,
+      isFormModalVisible: false,
+      contentDataForUpdate: {} as ContentData,
+    }
   },
   computed: {
     ...mapState(useContentStore, ['isContentDetailOpen']),
@@ -40,6 +49,7 @@ export default {
     },
     openFormModal() {
       this.isFormModalVisible = true
+      this.contentDataForUpdate = {} as ContentData
     },
     handleCloseLoginModal() {
       this.isLoginModalVisible = false
@@ -50,6 +60,12 @@ export default {
     handleContentDetailScrolled() {
       if (this.isContentDetailOpen) {
         useContentStore().$state.isContentDetailOpen = false
+      }
+    },
+    handleUpdateContent(content: ContentData) {
+      if (Object.keys(content).length !== 0) {
+        this.contentDataForUpdate = content
+        this.isFormModalVisible = true
       }
     },
   },

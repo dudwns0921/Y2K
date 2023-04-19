@@ -3,11 +3,12 @@
     <template v-if="!isContentStoreProcessing">
       <ContentCard
         v-for="content in contents"
-        :key="content.videoId"
+        :key="content.id"
         :title="content.title"
         :thumbnail-url="content.thumbnailURL"
         @open-content-detail="openContentDetail(content)"
-        @delete-content="handleDeleteContent(content.videoId)"
+        @delete-content="handleDeleteContent(content.id)"
+        @update-content="handleUpdateContent(content)"
       ></ContentCard>
     </template>
     <template v-else>
@@ -24,6 +25,8 @@ import ContentCard from '../molecule/ContentCard.vue'
 import { useContentStore } from '@/stores/content'
 import ContentCardSkeleton from '../atom/skleton/ContentCardSkeleton.vue'
 import { deleteContent } from '@/api/firebase/database'
+import { UPDATE_CONTENT_EVENT } from '@/constants'
+import type { ContentData } from '@/types/content'
 
 export default {
   components: { ContentCard, ContentCardSkeleton },
@@ -34,6 +37,9 @@ export default {
     ...mapActions(useContentStore, ['openContentDetail']),
     async handleDeleteContent(contentId: string) {
       await deleteContent(contentId)
+    },
+    handleUpdateContent(contentData: ContentData) {
+      this.$emit(UPDATE_CONTENT_EVENT, contentData)
     },
   },
 }

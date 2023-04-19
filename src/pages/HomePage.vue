@@ -1,7 +1,10 @@
 <template>
   <div class="flex flex-col gap-[49px]">
     <ContentDetail></ContentDetail>
-    <FilterBar></FilterBar><ContentsContainer></ContentsContainer>
+    <FilterBar></FilterBar
+    ><ContentsContainer
+      @update-content="handleUpdateContent"
+    ></ContentsContainer>
   </div>
 </template>
 
@@ -9,7 +12,9 @@
 import ContentDetail from '@/components/organism/ContentDetail.vue'
 import ContentsContainer from '@/components/organism/ContentsContainer.vue'
 import FilterBar from '@/components/organism/FilterBar.vue'
+import { UPDATE_CONTENT_EVENT } from '@/constants'
 import { useContentStore } from '@/stores/content'
+import type { ContentData } from '@/types/content'
 import { mapActions } from 'pinia'
 export default {
   components: {
@@ -28,6 +33,9 @@ export default {
 
   methods: {
     ...mapActions(useContentStore, ['setContentsAndFilters']),
+    handleUpdateContent(content: ContentData) {
+      this.$emit(UPDATE_CONTENT_EVENT, content)
+    },
   },
 }
 </script>

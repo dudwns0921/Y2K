@@ -2,7 +2,10 @@
   <div>
     <OverlayComponentVue @close-modal="handleCloseModal"> </OverlayComponentVue>
     <ModalComponent @close-modal="handleCloseModal">
-      <FormComponent @close-modal="handleCloseModal"></FormComponent>
+      <FormComponent
+        :content-data-for-update="contentDataForUpdate"
+        @close-modal="handleCloseModal"
+      ></FormComponent>
     </ModalComponent>
   </div>
 </template>
@@ -17,6 +20,12 @@ export default {
     OverlayComponentVue,
     ModalComponent,
     FormComponent,
+  },
+  props: {
+    contentDataForUpdate: {
+      type: Object,
+      required: true,
+    },
   },
   methods: {
     handleCloseModal() {

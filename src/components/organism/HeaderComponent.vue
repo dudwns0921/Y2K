@@ -3,21 +3,14 @@
     <nav class="flex gap-2 p-[26px] justify-between">
       <RouterLink to="/">홈 로고</RouterLink>
       <div>
-        <DefaultButton
-          v-if="!token"
-          event-name="open-login-modal"
-          @open-login-modal="handleOpenLoginModal"
+        <DefaultButton v-if="!token" @click="handleOpenLoginModal"
           >로그인</DefaultButton
         >
         <div v-else class="flex gap-2">
-          <DefaultButton
-            event-name="open-form-modal"
-            @open-form-modal="handleOpenFormModal"
+          <DefaultButton @click="handleOpenFormModal"
             >콘텐츠 업로드</DefaultButton
           >
-          <DefaultButton event-name="logout" @logout="handleLogout"
-            >로그아웃</DefaultButton
-          >
+          <DefaultButton @click="handleLogout">로그아웃</DefaultButton>
         </div>
       </div>
     </nav>

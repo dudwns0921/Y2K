@@ -11,6 +11,7 @@
 </template>
 <script lang="ts">
 import { getImageURL, uploadImage } from '@/api/firebase/storage'
+import { FILE_UPLOADED_EVENT } from '@/constants'
 
 export default {
   methods: {
@@ -22,7 +23,7 @@ export default {
         if (imagesRef !== undefined) {
           const imageURL = await getImageURL(imagesRef)
           if (imageURL !== undefined) {
-            this.$emit('file-uploaded', imageURL)
+            this.$emit(FILE_UPLOADED_EVENT, imageURL)
           }
         }
       }
