@@ -13,6 +13,8 @@
             :value="password"
             width="263px"
             event-name="password-input"
+            :need-enter-key="true"
+            @press-enter="handlePressEnter"
             @password-input="handleTextInput"
           ></TextInput>
           <button @click="handleLogin">
@@ -90,6 +92,9 @@ export default {
           message: '',
         }
       }
+    },
+    handlePressEnter() {
+      this.handleLogin()
     },
   },
 }

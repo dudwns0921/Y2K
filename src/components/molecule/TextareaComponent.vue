@@ -3,9 +3,9 @@
     <label v-if="label" :for="label" class="font-bold">{{ label }}</label>
     <textarea
       :id="label"
+      ref="textarea"
       :value="value"
-      class="border border-black focus:outline-none p-[9px] resize-none"
-      :class="textAreaClass"
+      class="border border-black focus:outline-none p-[9px] resize-none w-full h-[203px]"
       @input="handleInput"
     />
   </div>
@@ -13,7 +13,6 @@
 
 <script lang="ts">
 export default {
-  name: 'TextInput',
   props: {
     value: { type: String, required: true },
     label: { type: String, required: false, default: '' },
@@ -21,32 +20,8 @@ export default {
       type: String,
       required: true,
     },
-    width: {
-      type: String,
-      default: 'full',
-    },
-    height: {
-      type: String,
-      default: 'full',
-    },
   },
-  computed: {
-    textAreaClass() {
-      let width = ''
-      let height = ''
-      if (this.width === 'full') {
-        width = this.width
-      } else {
-        width = `[${this.width}]`
-      }
-      if (this.height === 'full') {
-        height = this.height
-      } else {
-        height = `[${this.height}]`
-      }
-      return `w-${width} h-${height}`
-    },
-  },
+
   methods: {
     handleInput(event: Event) {
       const eventTarget = event.target as HTMLInputElement

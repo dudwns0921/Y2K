@@ -8,11 +8,14 @@
       class="border border-black focus:outline-none p-[9px]"
       :class="inputClass"
       @input="handleInput"
+      @keyup.enter="handlePressEnter"
     />
   </div>
 </template>
 
 <script lang="ts">
+import { PRESS_ENTER_EVENT } from '@/constants'
+
 export default {
   name: 'TextInput',
   props: {
@@ -29,6 +32,10 @@ export default {
     height: {
       type: String,
       default: 'full',
+    },
+    needEnterKey: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {
@@ -52,6 +59,11 @@ export default {
     handleInput(event: Event) {
       const eventTarget = event.target as HTMLInputElement
       this.$emit(this.eventName, eventTarget.value)
+    },
+    handlePressEnter() {
+      if (this.needEnterKey) {
+        this.$emit(PRESS_ENTER_EVENT)
+      }
     },
   },
 }

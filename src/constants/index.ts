@@ -22,3 +22,5 @@ export const CANCEL_DELETE_SELECTION_MODE_EVENT = 'cancel-delete-selection-mode'
 export const DELETE_SELECTION_EVENT = 'delete-selection'
 export const CHECK_FOR_DELETION_EVENT = 'check-for-deletion'
 export const CANCEL_CHECK_FOR_DELETION_EVENT = 'cancel-check-for-deletion'
+
+export const PRESS_ENTER_EVENT = 'press-enter'

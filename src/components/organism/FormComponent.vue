@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full h-full overflow-auto flex flex-col gap-[22px] pr-[10px] mr-[10px] min-w-max min-h-max"
+    class="w-full h-full overflow-auto flex flex-col gap-[22px] p-[40px] mr-[10px] min-w-max min-h-max"
   >
     <TextInput
       :value="title"
@@ -33,13 +33,12 @@
       <label class="font-bold">시기</label>
       <VueDatePicker v-model="date" range month-picker></VueDatePicker>
     </div>
-    <TextArea
+    <TextareaComponent
       :value="description"
       label="콘텐츠 내용"
       event-name="description-input"
-      height="530px"
       @description-input="handleDescriptionInput"
-    ></TextArea>
+    ></TextareaComponent>
     <div class="flex gap-[16px] justify-end">
       <DefaultButton @click="handleCloseModal">취소</DefaultButton>
       <DefaultButton @click="handleSubmitForm">저장</DefaultButton>
@@ -49,7 +48,7 @@
 <script lang="ts">
 import { CLOSE_MODAL_EVENT } from '@/constants'
 import DefaultButton from '../atom/DefaultButton.vue'
-import TextArea from '../molecule/TextArea.vue'
+import TextareaComponent from '../molecule/TextareaComponent.vue'
 import TextInput from '../molecule/TextInput.vue'
 import DragDrop from '../molecule/DragDrop.vue'
 import FilterInput from './FilterInput.vue'
@@ -57,7 +56,13 @@ import { saveContent } from '@/api/firebase/database'
 import { uuidv4 } from '@firebase/util'
 
 export default {
-  components: { TextInput, TextArea, DefaultButton, DragDrop, FilterInput },
+  components: {
+    TextInput,
+    TextareaComponent,
+    DefaultButton,
+    DragDrop,
+    FilterInput,
+  },
   props: {
     contentDataForUpdate: {
       type: Object,
