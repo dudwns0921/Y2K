@@ -9,6 +9,9 @@
         @open-content-detail="openContentDetail(content)"
         @delete-content="handleDeleteContent(content.id)"
         @update-content="handleUpdateContent(content)"
+        @check-for-deletion="handleCheckForDeletion(content.id)"
+        @cancel-check-for-deletion="handleCancelCheckForDeletion(content.id)"
+        @delete-selection="handleDeleteSelection"
       ></ContentCard>
     </template>
     <template v-else>
@@ -30,6 +33,11 @@ import type { ContentData } from '@/types/content'
 
 export default {
   components: { ContentCard, ContentCardSkeleton },
+  data() {
+    return {
+      checkedForDeletionContentIds: [] as string[],
+    }
+  },
   computed: {
     ...mapState(useContentStore, ['contents', 'isContentStoreProcessing']),
   },
@@ -40,6 +48,19 @@ export default {
     },
     handleUpdateContent(contentData: ContentData) {
       this.$emit(UPDATE_CONTENT_EVENT, contentData)
+    },
+    handleCheckForDeletion(contentId: string) {
+      this.checkedForDeletionContentIds.push(contentId)
+    },
+    handleCancelCheckForDeletion(contentId: string) {
+      const targetIdx = this.checkedForDeletionContentIds.indexOf(contentId)
+      this.checkedForDeletionContentIds.slice(targetIdx, 1)
+    },
+    async handleDeleteSelection() {
+      for (const contentId of this.checkedForDeletionContentIds) {
+        await deleteContent(contentId, true)
+      }
+      window.location.reload()
     },
   },
 }

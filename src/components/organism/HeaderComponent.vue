@@ -7,6 +7,14 @@
           >로그인</DefaultButton
         >
         <div v-else class="flex gap-2">
+          <DefaultButton @click="getDeleteHandler">{{
+            getDeleteText
+          }}</DefaultButton>
+          <DefaultButton
+            v-if="isDeleteSelectionMode"
+            @click="cancelDeleteSelectionMode"
+            >취소</DefaultButton
+          >
           <DefaultButton @click="handleOpenFormModal"
             >콘텐츠 업로드</DefaultButton
           >
@@ -18,7 +26,13 @@
 </template>
 <script lang="ts">
 import { requestSignOut } from '@/api/firebase/auth'
-import { OPEN_FORM_MODAL_EVENT, OPEN_LOGIN_MODAL_EVENT } from '@/constants'
+import {
+  OPEN_FORM_MODAL_EVENT,
+  OPEN_LOGIN_MODAL_EVENT,
+  RUN_DELETE_SELECTION_MODE_EVENT,
+  CANCEL_DELETE_SELECTION_MODE_EVENT,
+  DELETE_SELECTION_EVENT,
+} from '@/constants'
 import { useAuthStore } from '@/stores/auth'
 import { mapState } from 'pinia'
 import { RouterLink } from 'vue-router'
@@ -28,18 +42,44 @@ export default {
     RouterLink,
     DefaultButton,
   },
+  data() {
+    return {
+      isDeleteSelectionMode: false,
+    }
+  },
   computed: {
     ...mapState(useAuthStore, ['token']),
+    getDeleteHandler(): () => void {
+      if (this.isDeleteSelectionMode) {
+        return this.emitDeleteSelectionEvent
+      } else {
+        return this.runDeleteSelectionMode
+      }
+    },
+    getDeleteText(): string {
+      return this.isDeleteSelectionMode ? '삭제' : ' 선택 삭제'
+    },
   },
   methods: {
-    handleOpenFormModal() {
+    handleOpenFormModal(): void {
       this.$emit(OPEN_FORM_MODAL_EVENT)
     },
-    handleOpenLoginModal() {
+    handleOpenLoginModal(): void {
       this.$emit(OPEN_LOGIN_MODAL_EVENT)
     },
-    handleLogout() {
+    handleLogout(): void {
       requestSignOut()
+    },
+    runDeleteSelectionMode(): void {
+      this.isDeleteSelectionMode = true
+      this.$emitter.emit(RUN_DELETE_SELECTION_MODE_EVENT)
+    },
+    emitDeleteSelectionEvent(): void {
+      this.$emitter.emit(DELETE_SELECTION_EVENT)
+    },
+    cancelDeleteSelectionMode(): void {
+      this.isDeleteSelectionMode = false
+      this.$emitter.emit(CANCEL_DELETE_SELECTION_MODE_EVENT)
     },
   },
 }

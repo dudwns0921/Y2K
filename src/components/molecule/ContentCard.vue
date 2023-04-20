@@ -4,12 +4,12 @@
     <div class="w-full relative">
       <img
         :src="thumbnailUrl"
-        class="h-[217px]"
+        class="h-[217px] border border-black"
         @click="emitOpenContentDetailEvent"
       />
       <button
         ref="detailedMenuButton"
-        class="absolute top-[10px] right-[10px] z-20"
+        class="absolute top-[10px] right-[10px]"
         @click="handleDetailedMenuStatus"
       >
         세부 메뉴
@@ -17,10 +17,20 @@
       <div
         v-if="isDetailedMenuClicked"
         ref="detailedMenu"
-        class="absolute top-[40px] right-[10px] bg-lightGray w-[63px] flex flex-col items-center border border-black p-[10px] z-20"
+        class="absolute top-[40px] right-[10px] bg-lightGray w-[63px] flex flex-col items-center border border-black p-[10px]"
       >
         <p class="cursor-pointer" @click="emitUpdateContentEvent">수정</p>
         <p class="cursor-pointer" @click="emitDeleteContentEvent">삭제</p>
+      </div>
+      <div
+        v-if="isDeleteMode"
+        class="absolute top-[10px] left-[10px] cursor-pointer"
+      >
+        <SelectCircle
+          v-if="!isCheckedForDeletion"
+          @click="checkForDeletion"
+        ></SelectCircle>
+        <SelectedCircle v-else @click="cancelCheckForDeletion"></SelectedCircle>
       </div>
     </div>
   </div>
@@ -30,8 +40,16 @@ import {
   OPEN_CONTENT_DETAIL_EVENT,
   DELETE_CONTENT_EVENT,
   UPDATE_CONTENT_EVENT,
+  RUN_DELETE_SELECTION_MODE_EVENT,
+  CANCEL_DELETE_SELECTION_MODE_EVENT,
+  DELETE_SELECTION_EVENT,
+  CHECK_FOR_DELETION_EVENT,
+  CANCEL_CHECK_FOR_DELETION_EVENT,
 } from '@/constants'
+import SelectCircle from '../icon/SelectCircle.vue'
+import SelectedCircle from '../icon/SelectedCircle.vue'
 export default {
+  components: { SelectCircle, SelectedCircle },
   props: {
     title: {
       type: String,
@@ -47,7 +65,31 @@ export default {
   data() {
     return {
       isDetailedMenuClicked: false,
+      isDeleteMode: false,
+      isCheckedForDeletion: false,
     }
+  },
+  mounted() {
+    this.$emitter.on(
+      RUN_DELETE_SELECTION_MODE_EVENT,
+      this.handleRunDeleteSelectionMode
+    )
+    this.$emitter.on(
+      CANCEL_DELETE_SELECTION_MODE_EVENT,
+      this.handleCancelDeleteSelectionMode
+    )
+    this.$emitter.on(DELETE_SELECTION_EVENT, this.handelDeleteSelection)
+  },
+  unmounted() {
+    this.$emitter.off(
+      RUN_DELETE_SELECTION_MODE_EVENT,
+      this.handleRunDeleteSelectionMode
+    )
+    this.$emitter.off(
+      CANCEL_DELETE_SELECTION_MODE_EVENT,
+      this.handleCancelDeleteSelectionMode
+    )
+    this.$emitter.off(DELETE_SELECTION_EVENT, this.handelDeleteSelection)
   },
   methods: {
     emitOpenContentDetailEvent() {
@@ -79,6 +121,25 @@ export default {
           this.isDetailedMenuClicked = false
         }
       }
+    },
+    handleRunDeleteSelectionMode() {
+      this.isDeleteMode = true
+    },
+    handleCancelDeleteSelectionMode() {
+      this.isDeleteMode = false
+    },
+    handelDeleteSelection() {
+      if (this.isCheckedForDeletion) {
+        this.$emit(DELETE_SELECTION_EVENT)
+      }
+    },
+    checkForDeletion() {
+      this.isCheckedForDeletion = true
+      this.$emit(CHECK_FOR_DELETION_EVENT)
+    },
+    cancelCheckForDeletion() {
+      this.isCheckedForDeletion = false
+      this.$emit(CANCEL_CHECK_FOR_DELETION_EVENT)
     },
   },
 }

@@ -66,11 +66,16 @@ export async function getContentsAndFilters() {
   }
 }
 
-export async function deleteContent(contentId: string) {
+export async function deleteContent(
+  contentId: string,
+  isDeleteSelectionMode = false
+) {
   try {
     await remove(ref(getDatabase(app), 'contents/' + contentId))
-    // 성공시 새로고침
-    window.location.reload()
+    if (!isDeleteSelectionMode) {
+      // 성공시 새로고침
+      window.location.reload()
+    }
   } catch (error) {
     if (error instanceof FirebaseError) {
       handleFirebaseError(error)
