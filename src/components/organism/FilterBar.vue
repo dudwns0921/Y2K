@@ -4,7 +4,7 @@
       <MainFilter
         v-for="filter in filters"
         :key="filter"
-        :content="filter"
+        :filter="filter"
       ></MainFilter>
     </template>
     <template v-else>

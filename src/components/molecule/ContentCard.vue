@@ -54,12 +54,10 @@ export default {
     title: {
       type: String,
       required: true,
-      default: '',
     },
     thumbnailUrl: {
       type: String,
       required: true,
-      default: '',
     },
   },
   data() {

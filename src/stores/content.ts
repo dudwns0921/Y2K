@@ -5,6 +5,7 @@ import type { ContentData } from '@/types/content'
 interface ContentState {
   contents: ContentData[]
   filters: string[]
+  selectedFilters: string[]
   isContentStoreProcessing: boolean
   isContentDetailOpen: boolean
   currentDetailContent: ContentData | null
@@ -14,6 +15,7 @@ export const useContentStore = defineStore('content', {
   state: (): ContentState => ({
     contents: [],
     filters: [],
+    selectedFilters: [],
     isContentStoreProcessing: false,
     isContentDetailOpen: false,
     currentDetailContent: null,
@@ -35,6 +37,13 @@ export const useContentStore = defineStore('content', {
         this.isContentDetailOpen = true
         this.currentDetailContent = content
       }, 100)
+    },
+    addSelectedFilter(selectedFilter: string) {
+      this.selectedFilters.push(selectedFilter)
+    },
+    removeFilter(filter: string) {
+      const targetIdx = this.selectedFilters.indexOf(filter)
+      this.selectedFilters.splice(targetIdx, 1)
     },
   },
 })
