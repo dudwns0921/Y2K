@@ -1,5 +1,5 @@
 <template>
-  <header class="fixed bg-white w-full h-header">
+  <header class="fixed bg-mainBG w-full h-header z-10">
     <nav class="flex gap-2 p-[26px] justify-between">
       <RouterLink to="/">홈 로고</RouterLink>
       <div>

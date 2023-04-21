@@ -6,6 +6,7 @@
         :key="content.id"
         :title="content.title"
         :thumbnail-url="content.thumbnailURL"
+        :filters="content.filters"
         @open-content-detail="openContentDetail(content)"
         @delete-content="handleDeleteContent(content.id)"
         @update-content="handleUpdateContent(content)"

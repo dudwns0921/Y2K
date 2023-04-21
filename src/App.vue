@@ -3,7 +3,7 @@
     @open-login-modal="openLoginModal"
     @open-form-modal="openFormModal"
   ></HeaderComponent>
-  <main class="pt-header">
+  <main class="p-[24px] pt-header">
     <RouterView @update-content="handleUpdateContent" />
   </main>
   <LoginModal v-if="isLoginModalVisible" @close-modal="handleCloseLoginModal" />

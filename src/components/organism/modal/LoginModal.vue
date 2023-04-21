@@ -2,13 +2,16 @@
   <div>
     <OverlayComponent @close-modal="handleCloseModal"> </OverlayComponent>
     <ModalComponent @close-modal="handleCloseModal">
-      <div
-        class="flex flex-col justify-center items-center w-full h-full gap-[45px]"
-      >
-        <p class="text-[40px] font-bold flex justify-center tracking-[19px]">
+      <div class="flex flex-col justify-center items-center w-full h-full">
+        <p
+          class="text-[40px] font-bold flex justify-center tracking-[19px] mb-[40px]"
+        >
           PASSWOR<span class="tracking-normal">D</span>
         </p>
-        <div class="flex h-[49px] items-center gap-[12px]">
+        <div
+          class="flex h-[49px] items-center gap-[12px]"
+          :class="{ 'animate-vibrate': error }"
+        >
           <TextInput
             :value="password"
             width="263px"
@@ -21,9 +24,6 @@
             <PolygonIcon />
           </button>
         </div>
-      </div>
-
-      <div class="absolute bottom-[140px] left-1/2 transform -translate-x-1/2">
         <ErrorDisplay :error="error"></ErrorDisplay>
       </div>
     </ModalComponent>
@@ -72,7 +72,7 @@ export default {
           }
           window.location.replace('/')
         } else {
-          throw new Error('잘못된 비밀번호입니다.')
+          throw new Error('비밀번호를 확인하세요.')
         }
       } catch (error) {
         if (error instanceof Error) {

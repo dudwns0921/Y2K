@@ -1,7 +1,8 @@
 <template>
-  <div class="flex flex-col gap-[49px]">
+  <div class="grid gap-[49px]">
     <ContentDetail></ContentDetail>
-    <FilterBar></FilterBar
+    <FilterBar></FilterBar>
+    <SortBy class="justify-self-end"></SortBy
     ><ContentsContainer
       @update-content="handleUpdateContent"
     ></ContentsContainer>
@@ -12,6 +13,7 @@
 import ContentDetail from '@/components/organism/ContentDetail.vue'
 import ContentsContainer from '@/components/organism/ContentsContainer.vue'
 import FilterBar from '@/components/organism/FilterBar.vue'
+import SortBy from '@/components/organism/SortBy.vue'
 import { UPDATE_CONTENT_EVENT } from '@/constants'
 import { useContentStore } from '@/stores/content'
 import type { ContentData } from '@/types/content'
@@ -21,6 +23,7 @@ export default {
     FilterBar,
     ContentsContainer,
     ContentDetail,
+    SortBy,
   },
   data() {
     return {

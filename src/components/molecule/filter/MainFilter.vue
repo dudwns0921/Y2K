@@ -9,7 +9,7 @@
 </template>
 <script lang="ts">
 import { useContentStore } from '@/stores/content'
-import { mapActions } from 'pinia'
+import { mapActions, mapState } from 'pinia'
 
 export default {
   props: {
@@ -24,12 +24,23 @@ export default {
     }
   },
   computed: {
+    ...mapState(useContentStore, ['selectedFilters']),
     selectedClass() {
       if (this.isSelected) {
         return 'bg-darkGray text-white'
       } else {
         return 'bg-lightGray'
       }
+    },
+  },
+  watch: {
+    selectedFilters: {
+      handler() {
+        if (this.selectedFilters.length == 0) {
+          this.isSelected = false
+        }
+      },
+      deep: true,
     },
   },
   methods: {

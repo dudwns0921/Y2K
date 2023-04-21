@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "firebase": "^9.18.0",
+    "lodash": "^4.17.21",
     "mitt": "^3.0.0",
     "pinia": "^2.0.32",
     "vue": "^3.2.47",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",
+    "@types/lodash": "^4.14.194",
     "@types/node": "^18.14.2",
     "@types/uuid": "^9.0.1",
     "@types/youtube-player": "^5.5.7",

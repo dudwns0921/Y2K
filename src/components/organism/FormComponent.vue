@@ -54,6 +54,8 @@ import DragDrop from '../molecule/DragDrop.vue'
 import FilterInput from './FilterInput.vue'
 import { saveContent } from '@/api/firebase/database'
 import { uuidv4 } from '@firebase/util'
+import type { yearAndMonth } from '@/types/content'
+import type { ContentData } from '@/types/content'
 
 export default {
   components: {
@@ -75,7 +77,7 @@ export default {
       videoId: '',
       thumbnailURL: '',
       filters: [] as string[],
-      date: null,
+      date: null as unknown,
       description: '',
       isUpdate: false,
     }
@@ -122,13 +124,13 @@ export default {
     },
     async handleSubmitForm() {
       const id = uuidv4()
-      const contentData = {
+      const contentData: ContentData = {
         id: this.isUpdate ? this.contentDataForUpdate?.id : id,
         title: this.title,
         videoId: this.videoId,
         thumbnailURL: this.thumbnailURL,
         filters: this.filters,
-        date: this.date,
+        date: this.date as yearAndMonth[],
         description: this.description,
       }
       await saveContent(contentData, this.isUpdate)

@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import { getContentsAndFilters } from '@/api/firebase/database'
 import type { ContentData } from '@/types/content'
+import { convertDatePickerObjToDate } from '@/util'
+import _ from 'lodash'
 
 interface ContentState {
   contents: ContentData[]
@@ -20,6 +22,18 @@ export const useContentStore = defineStore('content', {
     isContentDetailOpen: false,
     currentDetailContent: null,
   }),
+  getters: {
+    filteredContentsCount(state) {
+      const filteredContentsCount = state.contents.filter((content) => {
+        return content.filters.some((filter) =>
+          state.selectedFilters.includes(filter)
+        )
+      }).length
+      return state.selectedFilters.length == 0
+        ? state.contents.length
+        : filteredContentsCount
+    },
+  },
   actions: {
     async setContentsAndFilters() {
       this.isContentStoreProcessing = true
@@ -44,6 +58,27 @@ export const useContentStore = defineStore('content', {
     removeFilter(filter: string) {
       const targetIdx = this.selectedFilters.indexOf(filter)
       this.selectedFilters.splice(targetIdx, 1)
+    },
+    clearFilter() {
+      this.selectedFilters = []
+    },
+    sortByDate(order: string) {
+      this.contents =
+        order === 'desc'
+          ? _.sortBy(this.contents, function (o) {
+              console.log(convertDatePickerObjToDate(o.date[1]))
+              return convertDatePickerObjToDate(o.date[1])
+            })
+          : _.sortBy(this.contents, function (o) {
+              console.log(convertDatePickerObjToDate(o.date[1]))
+              return convertDatePickerObjToDate(o.date[1])
+            }).reverse()
+    },
+    sortByTitle(order: string) {
+      this.contents =
+        order === 'desc'
+          ? _.sortBy(this.contents, ['title'])
+          : _.sortBy(this.contents, ['title']).reverse()
     },
   },
 })

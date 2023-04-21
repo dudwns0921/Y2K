@@ -1,10 +1,10 @@
 <template>
-  <div class="w-[350px] min-h-max">
-    <p>{{ title }}</p>
+  <div v-if="isFiltered" class="w-[350px] min-h-max">
+    <p class="text-white">{{ title }}</p>
     <div class="w-full relative">
       <img
         :src="thumbnailUrl"
-        class="h-[217px] border border-black"
+        class="h-[217px] border border-pointColor rounded-lg"
         @click="emitOpenContentDetailEvent"
       />
       <button
@@ -48,6 +48,8 @@ import {
 } from '@/constants'
 import SelectCircle from '../icon/SelectCircle.vue'
 import SelectedCircle from '../icon/SelectedCircle.vue'
+import { mapState } from 'pinia'
+import { useContentStore } from '@/stores/content'
 export default {
   components: { SelectCircle, SelectedCircle },
   props: {
@@ -59,6 +61,10 @@ export default {
       type: String,
       required: true,
     },
+    filters: {
+      type: Array,
+      required: true,
+    },
   },
   data() {
     return {
@@ -66,6 +72,19 @@ export default {
       isDeleteMode: false,
       isCheckedForDeletion: false,
     }
+  },
+  computed: {
+    ...mapState(useContentStore, ['selectedFilters']),
+    isFiltered() {
+      // true - 필터링에 포함됨
+      if (this.selectedFilters.length === 0) {
+        return true
+      } else {
+        return this.filters.some((filter) =>
+          this.selectedFilters.includes(filter as string)
+        )
+      }
+    },
   },
   mounted() {
     this.$emitter.on(
@@ -124,6 +143,7 @@ export default {
       this.isDeleteMode = true
     },
     handleCancelDeleteSelectionMode() {
+      this.isCheckedForDeletion = false
       this.isDeleteMode = false
     },
     handelDeleteSelection() {
