@@ -6,7 +6,7 @@
       type="text"
       :value="value"
       class="border border-black focus:outline-none p-[9px]"
-      :class="inputClass"
+      :style="inputDynamicStyle"
       @input="handleInput"
       @keyup.enter="handlePressEnter"
     />
@@ -27,11 +27,11 @@ export default {
     },
     width: {
       type: String,
-      default: 'full',
+      default: '100%',
     },
     height: {
       type: String,
-      default: 'full',
+      default: '100%',
     },
     needEnterKey: {
       type: Boolean,
@@ -39,20 +39,11 @@ export default {
     },
   },
   computed: {
-    inputClass() {
-      let width = ''
-      let height = ''
-      if (this.width === 'full') {
-        width = this.width
-      } else {
-        width = `[${this.width}]`
+    inputDynamicStyle() {
+      return {
+        width: this.width,
+        height: this.height,
       }
-      if (this.height === 'full') {
-        height = this.height
-      } else {
-        height = `[${this.height}]`
-      }
-      return `w-${width} h-${height}`
     },
   },
   methods: {

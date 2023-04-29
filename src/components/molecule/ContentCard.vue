@@ -1,10 +1,10 @@
 <template>
-  <div v-if="isFiltered" class="w-[350px] min-h-max">
+  <div v-if="isFiltered" class="w-[350px]">
     <p class="text-white">{{ title }}</p>
-    <div class="w-full relative">
+    <div class="w-full h-[217px] relative border border-pointColor rounded-lg">
       <img
         :src="thumbnailUrl"
-        class="h-[217px] border border-pointColor rounded-lg"
+        class="w-full h-full rounded-lg"
         @click="emitOpenContentDetailEvent"
       />
       <button

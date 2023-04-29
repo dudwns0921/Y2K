@@ -17,6 +17,7 @@
 </template>
 <script lang="ts">
 import { useContentStore } from '@/stores/content'
+import { extractVideoIdFromUrl } from '@/util/youtube'
 import { mapState } from 'pinia'
 import PlayerFactory from 'youtube-player'
 import type { YouTubePlayer } from 'youtube-player/dist/types'
@@ -42,9 +43,14 @@ export default {
   async updated() {
     if (this.isContentDetailOpen) {
       if (this.player) {
-        if (this.currentDetailContent && this.currentDetailContent.videoId) {
-          await this.player.loadVideoById(this.currentDetailContent.videoId)
-          await this.player.playVideo()
+        if (this.currentDetailContent && this.currentDetailContent.videoURL) {
+          const videoId = extractVideoIdFromUrl(
+            this.currentDetailContent.videoURL
+          )
+          if (videoId) {
+            await this.player.loadVideoById(videoId)
+            await this.player.playVideo()
+          }
         }
       }
     }

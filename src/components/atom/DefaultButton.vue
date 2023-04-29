@@ -1,16 +1,35 @@
 <template>
-  <button :class="[buttonClass, buttonHoverClass]">
+  <button
+    :class="[buttonDefaultClass, buttonHoverClass]"
+    :style="buttonDynamicStyle"
+  >
     <slot></slot>
   </button>
 </template>
 <script lang="ts">
 export default {
+  props: {
+    width: {
+      type: String,
+      default: '142px',
+    },
+    height: {
+      type: String,
+      default: '60px',
+    },
+  },
   computed: {
-    buttonClass() {
-      return 'flex justify-center items-center h-[60px] px-[11px] min-w-[142px] max-w-max border border-black font-bold text-darkGray rounded'
+    buttonDefaultClass() {
+      return `flex justify-center items-center p-[11px] border border-black font-bold text-darkGray rounded`
+    },
+    buttonDynamicStyle() {
+      return {
+        width: this.width,
+        height: this.height,
+      }
     },
     buttonHoverClass() {
-      return 'hover:bg-darkGray hover:text-white hover:border-none'
+      return 'hover:bg-darkGray hover:text-white hover:border-transparent'
     },
   },
 }

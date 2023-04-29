@@ -3,8 +3,8 @@
     <label v-if="label" class="font-bold">{{ label }}</label>
     <div ref="filterWindowContainer">
       <div
-        class="border border-black flex items-center p-[9px] h-[49px] mt-[12px]"
-        :class="inputClass"
+        class="border border-black flex items-center p-[9px] mt-[12px]"
+        :style="inputDynamicStyle"
       >
         <div class="flex gap-[8px]">
           <InputFilter
@@ -18,7 +18,7 @@
           ref="filterInput"
           type="text"
           :value="filterText"
-          class="focus:outline-none w-full ml-[9px]"
+          class="focus:outline-none w-full"
           autocomplete="off"
           @input="handleInput"
           @keyup.enter="addFilter(filterText)"
@@ -54,11 +54,11 @@ export default {
     label: { type: String, required: false, default: '' },
     width: {
       type: String,
-      default: 'full',
+      default: '100%',
     },
     height: {
       type: String,
-      default: 'full',
+      default: '100%',
     },
     filtersForUpdate: {
       type: Array,
@@ -74,20 +74,11 @@ export default {
   },
   computed: {
     ...mapState(useContentStore, ['filters']),
-    inputClass() {
-      let width = ''
-      let height = ''
-      if (this.width === 'full') {
-        width = this.width
-      } else {
-        width = `[${this.width}]`
+    inputDynamicStyle() {
+      return {
+        width: this.width,
+        height: this.height,
       }
-      if (this.height === 'full') {
-        height = this.height
-      } else {
-        height = `[${this.height}]`
-      }
-      return `w-${width} h-${height}`
     },
   },
   mounted() {

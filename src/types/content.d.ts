@@ -6,7 +6,7 @@ export type yearAndMonth = {
 export type ContentData = {
   id: string
   title: string
-  videoId: string
+  videoURL: string
   thumbnailURL: string
   filters: string[]
   date: yearAndMonth[]

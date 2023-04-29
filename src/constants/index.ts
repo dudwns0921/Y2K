@@ -24,3 +24,6 @@ export const CHECK_FOR_DELETION_EVENT = 'check-for-deletion'
 export const CANCEL_CHECK_FOR_DELETION_EVENT = 'cancel-check-for-deletion'
 
 export const PRESS_ENTER_EVENT = 'press-enter'
+
+export const VIDEO_URL_VALIDATION_DONE_EVENT = 'video-url-validation-done'
+export const VIDEO_URL_VALIDATION_RESET_EVENT = 'video-url-validation-reset'

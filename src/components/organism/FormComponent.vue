@@ -9,13 +9,15 @@
       height="49px"
       @title-input="handleTitleInput"
     ></TextInput>
-    <TextInput
-      :value="videoId"
-      label="유튜브 동영상 ID"
-      event-name="video-id-input"
+    <URLInput
+      :value="videoURL"
+      label="유튜브 동영상 URL"
+      event-name="video-url-input"
       height="49px"
-      @video-id-input="handleVideoIdInput"
-    ></TextInput>
+      @video-url-input="handleVideoURLInput"
+      @video-url-validation-done="handleVideoURLValidationDone"
+      @video-url-validation-reset="handleVideoURLValidationReset"
+    ></URLInput>
     <div class="flex flex-col gap-[12px]">
       <label class="font-bold">썸네일</label>
       <DragDrop @file-uploaded="handleFileUploaded"></DragDrop>
@@ -39,7 +41,8 @@
       event-name="description-input"
       @description-input="handleDescriptionInput"
     ></TextareaComponent>
-    <div class="flex gap-[16px] justify-end">
+    <div class="flex gap-[16px] justify-end items-center">
+      <ErrorDisplay :error="formError"></ErrorDisplay>
       <DefaultButton @click="handleCloseModal">취소</DefaultButton>
       <DefaultButton @click="handleSubmitForm">저장</DefaultButton>
     </div>
@@ -49,21 +52,25 @@
 import { CLOSE_MODAL_EVENT } from '@/constants'
 import DefaultButton from '../atom/DefaultButton.vue'
 import TextareaComponent from '../molecule/TextareaComponent.vue'
-import TextInput from '../molecule/TextInput.vue'
+import TextInput from '../molecule/input/TextInput.vue'
+import URLInput from '../molecule/input/URLInput.vue'
 import DragDrop from '../molecule/DragDrop.vue'
 import FilterInput from './FilterInput.vue'
 import { saveContent } from '@/api/firebase/database'
 import { uuidv4 } from '@firebase/util'
 import type { yearAndMonth } from '@/types/content'
 import type { ContentData } from '@/types/content'
+import ErrorDisplay from '../molecule/ErrorDisplay.vue'
 
 export default {
   components: {
     TextInput,
+    URLInput,
     TextareaComponent,
     DefaultButton,
     DragDrop,
     FilterInput,
+    ErrorDisplay,
   },
   props: {
     contentDataForUpdate: {
@@ -74,19 +81,34 @@ export default {
   data() {
     return {
       title: '',
-      videoId: '',
+      videoURL: '',
       thumbnailURL: '',
       filters: [] as string[],
       date: null as unknown,
       description: '',
       isUpdate: false,
+      formError: {} as Error,
+      isVideoURLValidationDone: false,
     }
+  },
+  computed: {
+    isFormCompleted() {
+      return (
+        this.title &&
+        this.videoURL &&
+        this.isVideoURLValidationDone &&
+        this.thumbnailURL &&
+        this.filters.length > 0 &&
+        this.date !== null &&
+        this.description
+      )
+    },
   },
   mounted() {
     // 수정시 기존 작성된 데이터로 초기화
     if (Object.keys(this.contentDataForUpdate).length !== 0) {
       this.title = this.contentDataForUpdate.title
-      this.videoId = this.contentDataForUpdate.videoId
+      this.videoURL = this.contentDataForUpdate.videoURL
       this.thumbnailURL = this.contentDataForUpdate.thumbnailURL
       this.filters = [...this.contentDataForUpdate.filters]
       this.date = this.contentDataForUpdate.date
@@ -100,6 +122,12 @@ export default {
     }
   },
   methods: {
+    handleVideoURLValidationDone() {
+      this.isVideoURLValidationDone = true
+    },
+    handleVideoURLValidationReset() {
+      this.isVideoURLValidationDone = false
+    },
     handleCloseModal() {
       this.$emit(CLOSE_MODAL_EVENT)
     },
@@ -109,8 +137,8 @@ export default {
     handleDescriptionInput(value: string) {
       this.description = value
     },
-    handleVideoIdInput(value: string) {
-      this.videoId = value
+    handleVideoURLInput(value: string) {
+      this.videoURL = value
     },
     handleAddFilter(value: string) {
       this.filters.push(value)
@@ -123,17 +151,30 @@ export default {
       this.thumbnailURL = value
     },
     async handleSubmitForm() {
-      const id = uuidv4()
-      const contentData: ContentData = {
-        id: this.isUpdate ? this.contentDataForUpdate?.id : id,
-        title: this.title,
-        videoId: this.videoId,
-        thumbnailURL: this.thumbnailURL,
-        filters: this.filters,
-        date: this.date as yearAndMonth[],
-        description: this.description,
+      try {
+        if (this.isFormCompleted) {
+          if (this.formError) this.formError = {} as Error
+          const id = uuidv4()
+          const contentData: ContentData = {
+            id: this.isUpdate ? this.contentDataForUpdate?.id : id,
+            title: this.title,
+            videoURL: this.videoURL,
+            thumbnailURL: this.thumbnailURL,
+            filters: this.filters,
+            date: this.date as yearAndMonth[],
+            description: this.description,
+          }
+          await saveContent(contentData)
+        } else {
+          if (!this.isVideoURLValidationDone) {
+            throw new Error('URL 등록 버튼을 눌러주세요.')
+          } else {
+            throw new Error('모든 항목을 입력해주세요.')
+          }
+        }
+      } catch (error) {
+        this.formError = error as Error
       }
-      await saveContent(contentData, this.isUpdate)
     },
   },
 }

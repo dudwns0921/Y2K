@@ -14,7 +14,7 @@ export default {
   },
   computed: {
     isError() {
-      return !!this.error
+      return this.error.message
     },
   },
 }

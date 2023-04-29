@@ -35,7 +35,7 @@ import OverlayComponent from '@/components/molecule/OverlayComponent.vue'
 import { requestSignInWithPopup } from '@/api/firebase/auth'
 import { CLOSE_MODAL_EVENT, TOKEN_KEY } from '@/constants'
 import { useAuthStore } from '@/stores/auth'
-import TextInput from '../../molecule/TextInput.vue'
+import TextInput from '../../molecule/input/TextInput.vue'
 import ErrorDisplay from '../../molecule/ErrorDisplay.vue'
 import PolygonIcon from '@/components/icon/PolygonIcon.vue'
 

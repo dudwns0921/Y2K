@@ -7,19 +7,10 @@ import Logger from '@/util/logger/Logger'
 
 const logger = new Logger('database')
 
-export async function saveContent(contentData: ContentData, isUpdate: boolean) {
+export async function saveContent(contentData: ContentData) {
   try {
-    const dbRef = ref(getDatabase(app))
-    const snapshot = await get(child(dbRef, `contents/${contentData.id}`))
-    if (!snapshot.exists() || isUpdate) {
-      // 신규 콘텐츠 혹은 기존 콘텐츠 수정하는 경우에만 수행
-      await set(
-        ref(getDatabase(app), 'contents/' + contentData.id),
-        contentData
-      )
-    } else {
-      throw new Error('중복된 id 입니다.')
-    }
+    await set(ref(getDatabase(app), 'contents/' + contentData.id), contentData)
+
     // 성공시 메인 페이지로 이동
     window.location.replace('/')
   } catch (error) {
