@@ -1,6 +1,7 @@
 <template>
   <div
-    class="w-full h-full overflow-auto flex flex-col gap-[22px] p-[40px] mr-[10px] min-w-max min-h-max"
+    id="formComponent"
+    class="w-full h-full overflow-auto flex flex-col gap-[22px] p-[40px] mr-[10px] min-w-max min-h-max relative"
   >
     <TextInput
       :value="title"
@@ -49,7 +50,7 @@
   </div>
 </template>
 <script lang="ts">
-import { CLOSE_MODAL_EVENT } from '@/constants'
+import { CLOSE_MODAL_EVENT, CHECK_IS_FORM_WORKING } from '@/constants'
 import DefaultButton from '../atom/DefaultButton.vue'
 import TextareaComponent from '../molecule/TextareaComponent.vue'
 import TextInput from '../molecule/input/TextInput.vue'
@@ -103,8 +104,19 @@ export default {
         this.description
       )
     },
+    isFormWorking() {
+      return (
+        this.title !== '' ||
+        this.videoURL !== '' ||
+        this.thumbnailURL !== '' ||
+        this.filters.length > 0 ||
+        this.date !== null ||
+        this.description !== ''
+      )
+    },
   },
   mounted() {
+    this.$emitter.on(CHECK_IS_FORM_WORKING, this.handleCheckIsFormWorking)
     // 수정시 기존 작성된 데이터로 초기화
     if (Object.keys(this.contentDataForUpdate).length !== 0) {
       this.title = this.contentDataForUpdate.title
@@ -121,7 +133,13 @@ export default {
       }
     }
   },
+  unmounted() {
+    this.$emitter.off(CHECK_IS_FORM_WORKING, this.handleCheckIsFormWorking)
+  },
   methods: {
+    handleCheckIsFormWorking() {
+      this.$emit(CHECK_IS_FORM_WORKING, this.isFormWorking)
+    },
     handleVideoURLValidationDone() {
       this.isVideoURLValidationDone = true
     },

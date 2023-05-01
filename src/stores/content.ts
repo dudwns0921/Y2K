@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { getContentsAndFilters } from '@/api/firebase/database'
 import type { ContentData } from '@/types/content'
-import { convertDatePickerObjToDate } from '@/util'
+import { convertDatePickerObjToDate } from '@/util/date'
 import _ from 'lodash'
 
 interface ContentState {
@@ -66,11 +66,9 @@ export const useContentStore = defineStore('content', {
       this.contents =
         order === 'desc'
           ? _.sortBy(this.contents, function (o) {
-              console.log(convertDatePickerObjToDate(o.date[1]))
               return convertDatePickerObjToDate(o.date[1])
             })
           : _.sortBy(this.contents, function (o) {
-              console.log(convertDatePickerObjToDate(o.date[1]))
               return convertDatePickerObjToDate(o.date[1])
             }).reverse()
     },

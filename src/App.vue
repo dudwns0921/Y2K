@@ -22,6 +22,7 @@ import FormModal from './components/organism/modal/FormModal.vue'
 import { mapState } from 'pinia'
 import { useContentStore } from './stores/content'
 import type { ContentData } from './types/content'
+import { Popup } from './util/popup/Popup'
 
 export default {
   components: {
@@ -54,8 +55,30 @@ export default {
     handleCloseLoginModal() {
       this.isLoginModalVisible = false
     },
-    handleCloseFormModal() {
-      this.isFormModalVisible = false
+    handleCloseFormModal(isFormWorking: boolean) {
+      if (isFormWorking) {
+        const popup = Popup.getInstance()
+        popup.show(
+          '변경사항이 저장되지 않습니다.<br /> 계속 하시겠습니까?',
+          [
+            {
+              title: '예',
+              callback: () => {
+                this.isFormModalVisible = false
+              },
+            },
+            {
+              title: '아니오',
+              callback: () => {
+                popup.closePopup()
+              },
+            },
+          ],
+          'formModal'
+        )
+      } else {
+        this.isFormModalVisible = false
+      }
     },
     handleContentDetailScrolled() {
       if (this.isContentDetailOpen) {

@@ -27,3 +27,5 @@ export const PRESS_ENTER_EVENT = 'press-enter'
 
 export const VIDEO_URL_VALIDATION_DONE_EVENT = 'video-url-validation-done'
 export const VIDEO_URL_VALIDATION_RESET_EVENT = 'video-url-validation-reset'
+
+export const CHECK_IS_FORM_WORKING = 'check-is-form-working'
