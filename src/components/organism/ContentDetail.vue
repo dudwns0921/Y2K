@@ -34,6 +34,11 @@ export default {
       'currentDetailContent',
     ]),
   },
+  watch: {
+    async isContentDetailOpen() {
+      await this.player.stopVideo()
+    },
+  },
   async mounted() {
     this.player = PlayerFactory('player', {
       height: '100%',
