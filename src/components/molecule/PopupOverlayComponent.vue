@@ -8,12 +8,6 @@
 import { CLOSE_MODAL_EVENT } from '@/constants'
 
 export default {
-  mounted() {
-    document.body.style.overflow = 'hidden'
-  },
-  unmounted() {
-    document.body.style.overflow = 'auto'
-  },
   methods: {
     emitCLoseModal() {
       this.$emit(CLOSE_MODAL_EVENT)

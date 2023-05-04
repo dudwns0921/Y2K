@@ -41,9 +41,6 @@ export default {
   computed: {
     ...mapState(useContentStore, ['isContentDetailOpen']),
   },
-  created() {
-    window.addEventListener('scroll', this.handleContentDetailScrolled)
-  },
   methods: {
     openLoginModal() {
       this.isLoginModalVisible = true
@@ -78,11 +75,6 @@ export default {
         )
       } else {
         this.isFormModalVisible = false
-      }
-    },
-    handleContentDetailScrolled() {
-      if (this.isContentDetailOpen) {
-        useContentStore().$state.isContentDetailOpen = false
       }
     },
     handleUpdateContent(content: ContentData) {

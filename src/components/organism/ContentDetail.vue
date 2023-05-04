@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full transition-height duration-500 ease-out grid grid-cols-10 overflow-hidden gap-[14px]"
+    class="w-full transition-height duration-500 ease-out grid grid-cols-10 overflow-hidden gap-[14px] relative"
     :class="[isContentDetailOpen ? 'h-[655px]' : 'h-0']"
   >
     <div id="player" class="col-span-7"></div>
@@ -10,6 +10,12 @@
       <p>{{ dateText }}</p>
       <p>{{ currentDetailContent?.description }}</p>
     </div>
+    <button
+      class="absolute top-[13px] right-[17px]"
+      @click="closeContentDetail"
+    >
+      &#x2715;
+    </button>
   </div>
 </template>
 <script lang="ts">
@@ -40,11 +46,6 @@ export default {
       return formatDate(startDate, endDate)
     },
   },
-  watch: {
-    async isContentDetailOpen() {
-      await this.player.stopVideo()
-    },
-  },
   async mounted() {
     this.player = PlayerFactory('player', {
       height: '100%',
@@ -66,6 +67,11 @@ export default {
       }
     }
   },
-  methods: {},
+  methods: {
+    async closeContentDetail() {
+      useContentStore().$patch({ isContentDetailOpen: false })
+      await this.player.stopVideo()
+    },
+  },
 }
 </script>
