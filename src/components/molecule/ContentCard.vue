@@ -1,7 +1,7 @@
 <template>
   <div v-if="isFiltered" class="w-[350px]">
     <p class="text-white">{{ title }}</p>
-    <div class="w-full h-[217px] relative border border-pointColor rounded-lg">
+    <div class="w-full h-[217px] relative rounded-lg" :class="hoverClass">
       <img
         :src="thumbnailUrl"
         class="w-full h-full rounded-lg"
@@ -87,6 +87,9 @@ export default {
           this.selectedFilters.includes(filter as string)
         )
       }
+    },
+    hoverClass() {
+      return 'hover:border hover:border-pointColor hover:border-[4px]'
     },
   },
   mounted() {
