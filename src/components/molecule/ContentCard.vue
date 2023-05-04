@@ -8,6 +8,7 @@
         @click="emitOpenContentDetailEvent"
       />
       <button
+        v-if="token"
         ref="detailedMenuButton"
         class="absolute top-[10px] right-[10px]"
         @click="handleDetailedMenuStatus"
@@ -50,6 +51,7 @@ import SelectCircle from '../icon/SelectCircle.vue'
 import SelectedCircle from '../icon/SelectedCircle.vue'
 import { mapState } from 'pinia'
 import { useContentStore } from '@/stores/content'
+import { useAuthStore } from '@/stores/auth'
 export default {
   components: { SelectCircle, SelectedCircle },
   props: {
@@ -75,6 +77,7 @@ export default {
   },
   computed: {
     ...mapState(useContentStore, ['selectedFilters']),
+    ...mapState(useAuthStore, ['token']),
     isFiltered() {
       // true - 필터링에 포함됨
       if (this.selectedFilters.length === 0) {
