@@ -1,16 +1,13 @@
 <template>
   <div
-    class="w-full bg-blue-200 transition-height duration-500 ease-out grid grid-cols-10 overflow-hidden"
+    class="w-full transition-height duration-500 ease-out grid grid-cols-10 overflow-hidden gap-[14px]"
     :class="[isContentDetailOpen ? 'h-[655px]' : 'h-0']"
   >
     <div id="player" class="col-span-7"></div>
-    <div class="col-span-3">
-      <p>{{ currentDetailContent?.title }}</p>
-      <ul>
-        <li v-for="filter in currentDetailContent?.filters" :key="filter">
-          {{ filter }}
-        </li>
-      </ul>
+    <div class="col-span-3 bg-lightGray p-[21px] flex flex-col gap-[20px]">
+      <p class="text-[25px] font-bold">{{ currentDetailContent?.title }}</p>
+      <p>{{ filterText }}</p>
+      <p>{{ dateText }}</p>
       <p>{{ currentDetailContent?.description }}</p>
     </div>
   </div>
@@ -21,6 +18,7 @@ import { extractVideoIdFromUrl } from '@/util/youtube'
 import { mapState } from 'pinia'
 import PlayerFactory from 'youtube-player'
 import type { YouTubePlayer } from 'youtube-player/dist/types'
+import { formatDate } from '@/util/date'
 
 export default {
   data() {
@@ -33,6 +31,14 @@ export default {
       'isContentDetailOpen',
       'currentDetailContent',
     ]),
+    filterText() {
+      return this.currentDetailContent?.filters.join(',')
+    },
+    dateText() {
+      const startDate = this.currentDetailContent?.date[0]
+      const endDate = this.currentDetailContent?.date[1]
+      return formatDate(startDate, endDate)
+    },
   },
   watch: {
     async isContentDetailOpen() {
