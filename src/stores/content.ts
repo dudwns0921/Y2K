@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { getContentsAndFilters } from '@/api/firebase/database'
 import type { ContentData } from '@/types/content'
-import { convertDatePickerObjToDate } from '@/util/date'
+import { convertDatePickerObjToDate, formatDate } from '@/util/date'
 import _ from 'lodash'
 
 interface ContentState {
@@ -23,6 +23,16 @@ export const useContentStore = defineStore('content', {
     currentDetailContent: null,
   }),
   getters: {
+    // ContentDetail
+    filterText(state) {
+      return state.currentDetailContent?.filters.join(',')
+    },
+    dateText(state) {
+      const startDate = state.currentDetailContent?.date[0]
+      const endDate = state.currentDetailContent?.date[1]
+      return formatDate(startDate, endDate)
+    },
+    // Sortby
     filteredContentsCount(state) {
       const filteredContentsCount = state.contents.filter((content) => {
         return content.filters.some((filter) =>

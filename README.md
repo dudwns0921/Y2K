@@ -18,6 +18,8 @@
     - 팝업 오버레이 z-40
     - 팝업창 z-50
         팝업은 모달창보다 최소한 헤더보다는 앞에 있어야 하고, 모달창보다 앞에 있어야 하는 경우가 있음.
+- pinia에서 mapstate를 통해 가져온 state들을 다시 computed에서 사용하면 ts 오류 발생
+    - pinia state을 이용해야 하는 복잡한 값은 getters 사용
 
 ### 컨벤션 레퍼런스
 - https://fe-developers.kakaoent.com/2022/220505-how-page-part-use-atomic-design-system/

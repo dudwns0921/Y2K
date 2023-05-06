@@ -4,7 +4,7 @@
     <div class="w-full h-[217px] relative rounded-lg" :class="hoverClass">
       <img
         :src="thumbnailUrl"
-        class="w-full h-full rounded-lg"
+        class="w-full h-full rounded-lg hover:rounded-none"
         @click="emitOpenContentDetailEvent"
       />
       <button

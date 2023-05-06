@@ -24,7 +24,6 @@ import { extractVideoIdFromUrl } from '@/util/youtube'
 import { mapState } from 'pinia'
 import PlayerFactory from 'youtube-player'
 import type { YouTubePlayer } from 'youtube-player/dist/types'
-import { formatDate } from '@/util/date'
 
 export default {
   data() {
@@ -34,17 +33,11 @@ export default {
   },
   computed: {
     ...mapState(useContentStore, [
-      'isContentDetailOpen',
       'currentDetailContent',
+      'isContentDetailOpen',
+      'filterText',
+      'dateText',
     ]),
-    filterText() {
-      return this.currentDetailContent?.filters.join(',')
-    },
-    dateText() {
-      const startDate = this.currentDetailContent?.date[0]
-      const endDate = this.currentDetailContent?.date[1]
-      return formatDate(startDate, endDate)
-    },
   },
   async mounted() {
     this.player = PlayerFactory('player', {
