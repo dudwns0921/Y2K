@@ -50,7 +50,11 @@
   </div>
 </template>
 <script lang="ts">
-import { CLOSE_MODAL_EVENT, CHECK_IS_FORM_WORKING } from '@/constants'
+import {
+  CLOSE_MODAL_EVENT,
+  CHECK_IS_FORM_WORKING_EVENT,
+  VIDEO_URL_VALIDATION_FOR_UPDATE_DONE_EVENT,
+} from '@/constants'
 import DefaultButton from '../atom/DefaultButton.vue'
 import TextareaComponent from '../molecule/TextareaComponent.vue'
 import TextInput from '../molecule/input/TextInput.vue'
@@ -116,7 +120,7 @@ export default {
     },
   },
   mounted() {
-    this.$emitter.on(CHECK_IS_FORM_WORKING, this.handleCheckIsFormWorking)
+    this.$emitter.on(CHECK_IS_FORM_WORKING_EVENT, this.handleCheckIsFormWorking)
     // 수정시 기존 작성된 데이터로 초기화
     if (Object.keys(this.contentDataForUpdate).length !== 0) {
       this.title = this.contentDataForUpdate.title
@@ -126,6 +130,9 @@ export default {
       this.date = this.contentDataForUpdate.date
       this.description = this.contentDataForUpdate.description
 
+      this.$emitter.emit(VIDEO_URL_VALIDATION_FOR_UPDATE_DONE_EVENT)
+      this.isVideoURLValidationDone = true
+
       this.isUpdate = true
     } else {
       if (this.isUpdate) {
@@ -134,11 +141,14 @@ export default {
     }
   },
   unmounted() {
-    this.$emitter.off(CHECK_IS_FORM_WORKING, this.handleCheckIsFormWorking)
+    this.$emitter.off(
+      CHECK_IS_FORM_WORKING_EVENT,
+      this.handleCheckIsFormWorking
+    )
   },
   methods: {
     handleCheckIsFormWorking() {
-      this.$emit(CHECK_IS_FORM_WORKING, this.isFormWorking)
+      this.$emit(CHECK_IS_FORM_WORKING_EVENT, this.isFormWorking)
     },
     handleVideoURLValidationDone() {
       this.isVideoURLValidationDone = true

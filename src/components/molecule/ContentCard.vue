@@ -1,10 +1,13 @@
 <template>
   <div v-if="isFiltered" class="w-[350px]">
     <p class="text-white">{{ title }}</p>
-    <div class="w-full h-[217px] relative rounded-lg" :class="hoverClass">
+    <div
+      class="w-full h-[217px] relative rounded-lg overflow-hidden"
+      :class="hoverClass"
+    >
       <img
         :src="thumbnailUrl"
-        class="w-full h-full rounded-lg hover:rounded-none"
+        class="w-full h-full"
         @click="emitOpenContentDetailEvent"
       />
       <button

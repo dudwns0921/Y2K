@@ -24,6 +24,7 @@
 import DefaultButton from '@/components/atom/DefaultButton.vue'
 import {
   VIDEO_URL_VALIDATION_DONE_EVENT,
+  VIDEO_URL_VALIDATION_FOR_UPDATE_DONE_EVENT,
   VIDEO_URL_VALIDATION_RESET_EVENT,
 } from '@/constants'
 import { validateYouTubeUrl } from '@/util/youtube'
@@ -75,7 +76,22 @@ export default {
       }
     },
   },
+  mounted() {
+    this.$emitter.on(
+      VIDEO_URL_VALIDATION_FOR_UPDATE_DONE_EVENT,
+      this.handleVideoURLValidationForUpdateDone
+    )
+  },
+  unmounted() {
+    this.$emitter.off(
+      VIDEO_URL_VALIDATION_FOR_UPDATE_DONE_EVENT,
+      this.handleVideoURLValidationForUpdateDone
+    )
+  },
   methods: {
+    handleVideoURLValidationForUpdateDone() {
+      this.isUrlValidated = true
+    },
     validateURL() {
       try {
         if (validateYouTubeUrl(this.value)) {

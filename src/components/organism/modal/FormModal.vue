@@ -19,7 +19,7 @@
 </template>
 <script lang="ts">
 import ModalComponent from '@/components/molecule/ModalComponent.vue'
-import { CLOSE_MODAL_EVENT, CHECK_IS_FORM_WORKING } from '@/constants'
+import { CLOSE_MODAL_EVENT, CHECK_IS_FORM_WORKING_EVENT } from '@/constants'
 import FormComponent from '../FormComponent.vue'
 import ModalOverlayComponent from '@/components/molecule/ModalOverlayComponent.vue'
 
@@ -41,7 +41,7 @@ export default {
     },
     handleCloseModal() {
       // FormComponent에서 작성중인지 확인 요청
-      this.$emitter.emit(CHECK_IS_FORM_WORKING)
+      this.$emitter.emit(CHECK_IS_FORM_WORKING_EVENT)
     },
   },
 }
