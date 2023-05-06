@@ -53,28 +53,30 @@ export default {
       this.isLoginModalVisible = false
     },
     handleCloseFormModal(isFormWorking: boolean) {
-      if (isFormWorking) {
-        const popup = Popup.getInstance()
-        popup.show(
-          '변경사항이 저장되지 않습니다.<br /> 계속 하시겠습니까?',
-          [
-            {
-              title: '예',
-              callback: () => {
-                this.isFormModalVisible = false
+      const popup = Popup.getInstance()
+      if (!popup.getIsPopupShowing()) {
+        if (isFormWorking) {
+          popup.show(
+            '변경사항이 저장되지 않습니다.<br /> 계속 하시겠습니까?',
+            [
+              {
+                title: '예',
+                callback: () => {
+                  this.isFormModalVisible = false
+                },
               },
-            },
-            {
-              title: '아니오',
-              callback: () => {
-                popup.closePopup()
+              {
+                title: '아니오',
+                callback: () => {
+                  popup.closePopup()
+                },
               },
-            },
-          ],
-          'formModal'
-        )
-      } else {
-        this.isFormModalVisible = false
+            ],
+            'formModal'
+          )
+        } else {
+          this.isFormModalVisible = false
+        }
       }
     },
     handleUpdateContent(content: ContentData) {

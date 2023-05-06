@@ -86,6 +86,9 @@ export default {
       this.innerFilters = this.filtersForUpdate as string[]
     }
   },
+  unmounted() {
+    document.removeEventListener('click', this.handleFilterWindowOutsideClick)
+  },
   methods: {
     handleFilterWindowOutsideClick(event: MouseEvent) {
       const filterWindowContainer = this.$refs
