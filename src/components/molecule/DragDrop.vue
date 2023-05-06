@@ -27,6 +27,7 @@ const allowedTypes = ['image/jpeg', 'image/png', 'image/gif']
 
 export default {
   components: { ErrorDisplay },
+  emits: [FILE_UPLOADED_EVENT],
   data() {
     return {
       file: {} as File,

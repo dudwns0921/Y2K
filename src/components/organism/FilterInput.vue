@@ -65,6 +65,7 @@ export default {
       required: true,
     },
   },
+  emits: [ADD_FILTER_EVENT, DELETE_FILTER_EVENT],
   data() {
     return {
       filterText: '',

@@ -35,6 +35,7 @@ export default {
       required: true,
     },
   },
+  emits: [CLOSE_MODAL_EVENT],
   methods: {
     handleCheckIsFormWorking(isFormWorking: boolean) {
       this.$emit(CLOSE_MODAL_EVENT, isFormWorking)

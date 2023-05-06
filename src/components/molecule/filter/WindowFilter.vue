@@ -16,6 +16,7 @@ export default {
       required: true,
     },
   },
+  emits: [ADD_FILTER_EVENT],
   methods: {
     addFilter() {
       this.$emit(ADD_FILTER_EVENT)

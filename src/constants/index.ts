@@ -31,3 +31,5 @@ export const VIDEO_URL_VALIDATION_FOR_UPDATE_DONE_EVENT =
   'video-url-validation-for-update-done'
 
 export const CHECK_IS_FORM_WORKING_EVENT = 'check-is-form-working'
+
+export const VIDEO_URL_INPUT_EVENT = 'video-url-input'

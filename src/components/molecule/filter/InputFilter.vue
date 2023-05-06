@@ -16,6 +16,7 @@ export default {
       required: true,
     },
   },
+  emits: [DELETE_FILTER_EVENT],
   methods: {
     emitDeleteFilterEvent() {
       this.$emit(DELETE_FILTER_EVENT)

@@ -8,6 +8,7 @@
 import { CLOSE_MODAL_EVENT } from '@/constants'
 
 export default {
+  emits: [CLOSE_MODAL_EVENT],
   mounted() {
     document.body.style.overflow = 'hidden'
   },

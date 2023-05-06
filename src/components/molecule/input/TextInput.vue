@@ -17,7 +17,6 @@
 import { PRESS_ENTER_EVENT } from '@/constants'
 
 export default {
-  name: 'TextInput',
   props: {
     value: { type: String, required: true },
     label: { type: String, required: false, default: '' },
@@ -38,6 +37,7 @@ export default {
       default: false,
     },
   },
+
   computed: {
     inputDynamicStyle() {
       return {

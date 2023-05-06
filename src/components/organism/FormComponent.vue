@@ -1,6 +1,5 @@
 <template>
   <div
-    id="formComponent"
     class="w-full h-full overflow-auto flex flex-col gap-[22px] p-[40px] mr-[10px] min-w-max min-h-max relative"
   >
     <TextInput
@@ -13,7 +12,6 @@
     <URLInput
       :value="videoURL"
       label="유튜브 동영상 URL"
-      event-name="video-url-input"
       height="49px"
       @video-url-input="handleVideoURLInput"
       @video-url-validation-done="handleVideoURLValidationDone"
@@ -83,6 +81,7 @@ export default {
       required: true,
     },
   },
+  emits: [CHECK_IS_FORM_WORKING_EVENT, CLOSE_MODAL_EVENT],
   data() {
     return {
       title: '',

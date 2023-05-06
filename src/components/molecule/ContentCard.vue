@@ -73,6 +73,14 @@ export default {
       required: true,
     },
   },
+  emits: [
+    OPEN_CONTENT_DETAIL_EVENT,
+    DELETE_CONTENT_EVENT,
+    UPDATE_CONTENT_EVENT,
+    DELETE_SELECTION_EVENT,
+    CHECK_FOR_DELETION_EVENT,
+    CANCEL_CHECK_FOR_DELETION_EVENT,
+  ],
   data() {
     return {
       isDetailedMenuClicked: false,

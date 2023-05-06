@@ -42,6 +42,7 @@ export default {
     RouterLink,
     DefaultButton,
   },
+  emits: [OPEN_FORM_MODAL_EVENT, OPEN_LOGIN_MODAL_EVENT],
   data() {
     return {
       isDeleteSelectionMode: false,

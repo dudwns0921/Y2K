@@ -26,6 +26,7 @@ import {
   VIDEO_URL_VALIDATION_DONE_EVENT,
   VIDEO_URL_VALIDATION_FOR_UPDATE_DONE_EVENT,
   VIDEO_URL_VALIDATION_RESET_EVENT,
+  VIDEO_URL_INPUT_EVENT,
 } from '@/constants'
 import { validateYouTubeUrl } from '@/util/youtube'
 import ErrorDisplay from '../ErrorDisplay.vue'
@@ -35,10 +36,6 @@ export default {
   props: {
     value: { type: String, required: true },
     label: { type: String, default: '' },
-    eventName: {
-      type: String,
-      required: true,
-    },
     width: {
       type: String,
       default: '100%',
@@ -52,6 +49,11 @@ export default {
       default: false,
     },
   },
+  emits: [
+    VIDEO_URL_INPUT_EVENT,
+    VIDEO_URL_VALIDATION_DONE_EVENT,
+    VIDEO_URL_VALIDATION_RESET_EVENT,
+  ],
   data() {
     return {
       urlValidateError: {} as Error,
@@ -108,13 +110,13 @@ export default {
       }
     },
     deleteURL() {
-      this.$emit(this.eventName, '')
+      this.$emit(VIDEO_URL_INPUT_EVENT, '')
       this.isUrlValidated = false
       this.$emit(VIDEO_URL_VALIDATION_RESET_EVENT)
     },
     handleInput(event: Event) {
       const eventTarget = event.target as HTMLInputElement
-      this.$emit(this.eventName, eventTarget.value)
+      this.$emit(VIDEO_URL_INPUT_EVENT, eventTarget.value)
     },
   },
 }

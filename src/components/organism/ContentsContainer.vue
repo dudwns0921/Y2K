@@ -34,6 +34,7 @@ import type { ContentData } from '@/types/content'
 
 export default {
   components: { ContentCard, ContentCardSkeleton },
+  emits: [UPDATE_CONTENT_EVENT],
   data() {
     return {
       checkedForDeletionContentIds: [] as string[],

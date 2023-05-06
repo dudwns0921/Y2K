@@ -25,6 +25,7 @@ export default {
     ContentDetail,
     SortBy,
   },
+  emits: [UPDATE_CONTENT_EVENT],
   data() {
     return {
       isDetailPageOpened: false,

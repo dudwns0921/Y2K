@@ -23,6 +23,7 @@ export default {
       required: true,
     },
   },
+  emits: [CLOSE_MODAL_EVENT],
   computed: {
     modalDynamicStyle() {
       return {

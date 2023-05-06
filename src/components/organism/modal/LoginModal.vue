@@ -56,6 +56,7 @@ export default {
     ErrorDisplay,
     PolygonIcon,
   },
+  emits: [CLOSE_MODAL_EVENT],
   data() {
     return {
       password: '',
@@ -87,7 +88,6 @@ export default {
         }
       }
     },
-
     handleCloseModal() {
       this.$emit(CLOSE_MODAL_EVENT)
     },

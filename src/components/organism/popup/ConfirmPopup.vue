@@ -27,9 +27,6 @@ export default {
       required: true,
     },
   },
-  mounted() {
-    console.log(this.content)
-  },
 }
 </script>
 <style lang="scss"></style>

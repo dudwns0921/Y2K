@@ -21,7 +21,6 @@ export default {
       required: true,
     },
   },
-
   methods: {
     handleInput(event: Event) {
       const eventTarget = event.target as HTMLInputElement

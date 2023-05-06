@@ -1,7 +1,7 @@
 import ConfirmPopup from '@/components/organism/popup/ConfirmPopup.vue'
 import { createApp, type App } from 'vue'
 
-const POPUP_CONTAINER_ID = 'popupContainer'
+const POPUP_ID = 'popup'
 
 export type popupButtonObj = {
   title: string
@@ -23,7 +23,7 @@ export class Popup {
     })
 
     const divElement = document.createElement('div')
-    divElement.id = POPUP_CONTAINER_ID
+    divElement.id = POPUP_ID
     divElement.style.width = '100%'
     divElement.style.height = '100%'
     divElement.style.position = 'absolute'
@@ -36,12 +36,12 @@ export class Popup {
 
   closePopup() {
     this.popup.unmount()
-    document.getElementById(POPUP_CONTAINER_ID)?.remove()
+    document.getElementById(POPUP_ID)?.remove()
     this.popup = {} as App<Element>
   }
 
   getIsPopupShowing() {
-    return document.getElementById(POPUP_CONTAINER_ID) !== null
+    return document.getElementById(POPUP_ID) !== null
   }
 
   static getInstance() {
