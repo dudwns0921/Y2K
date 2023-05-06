@@ -2,13 +2,15 @@
   <div v-if="isFiltered" class="w-[350px]">
     <p class="text-white">{{ title }}</p>
     <div
-      class="w-full h-[217px] relative rounded-lg overflow-hidden"
-      :class="hoverClass"
+      :class="[imgContainerClass, imgContainerHoverClass]"
+      style="height: 217px"
     >
       <img
+        ref="img"
         :src="thumbnailUrl"
-        class="w-full h-full"
+        class="w-full"
         @click="emitOpenContentDetailEvent"
+        @load="resizeImgContainer"
       />
       <button
         v-if="token"
@@ -91,7 +93,10 @@ export default {
         )
       }
     },
-    hoverClass() {
+    imgContainerClass() {
+      return 'w-full relative rounded-lg overflow-hidden bg-lightGray'
+    },
+    imgContainerHoverClass() {
       return 'hover:border hover:border-pointColor hover:border-[4px]'
     },
   },
@@ -118,6 +123,14 @@ export default {
     this.$emitter.off(DELETE_SELECTION_EVENT, this.handelDeleteSelection)
   },
   methods: {
+    resizeImgContainer() {
+      const img = this.$refs.img as HTMLImageElement
+      const imgContainer = img.parentElement
+      if (imgContainer) {
+        imgContainer.style.height = `${img.height}px`
+        imgContainer.style.backgroundColor = 'transparent'
+      }
+    },
     emitOpenContentDetailEvent() {
       this.$emit(OPEN_CONTENT_DETAIL_EVENT)
     },
